@@ -1,19 +1,69 @@
 export type UserRole = "ADMIN" | "GUIDE" | "TOURIST";
 
-export const getRouteOwner = (pathname: string): "ADMIN" | "DOCTOR" | "PATIENT" | "COMMON" | null => {
+export type RouteConfig = {
+    exact: string[],
+    patterns: RegExp[],
+}
+export const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password"];
+export const commonProtectedRoutes: RouteConfig = {
+    exact: ["/my-profile", "/settings"],
+    patterns: [],
+}
+export const GuideProtectedRoutes: RouteConfig = {
+    patterns: [/^\/guide/],
+    exact: [],
+}
+
+export const adminProtectedRoutes: RouteConfig = {
+    patterns: [/^\/admin/], // Routes starting with /admin/*
+    exact: [], // "/admins"
+}
+
+export const touristProtectedRoutes: RouteConfig = {
+    patterns: [/^\/dashboard/], // Routes starting with /dashboard/*
+    exact: [], // "/dashboard"
+}
+
+export const isAuthRoute = (pathname: string) => {
+    return authRoutes.some((route: string) => route === pathname);
+}
+
+export const isRouteMatches = (pathname: string, routes: RouteConfig): boolean => {
+    if (routes.exact.includes(pathname)) {
+        return true;
+    }
+    return routes.patterns.some((pattern: RegExp) => pattern.test(pathname))
+    // if pathname === /dashboard/my-appointments => matches /^\/dashboard/ => true
+}
+
+export const getRouteOwner = (pathname: string): "ADMIN" | "GUIDE" | "TOURIST" | "COMMON" | null => {
     if (isRouteMatches(pathname, adminProtectedRoutes)) {
         return "ADMIN";
     }
-    if (isRouteMatches(pathname, doctorProtectedRoutes)) {
-        return "DOCTOR";
+    if (isRouteMatches(pathname, GuideProtectedRoutes)) {
+        return "GUIDE";
     }
-    if (isRouteMatches(pathname, patientProtectedRoutes)) {
-        return "PATIENT";
+    if (isRouteMatches(pathname, touristProtectedRoutes)) {
+        return "TOURIST";
     }
     if (isRouteMatches(pathname, commonProtectedRoutes)) {
         return "COMMON";
     }
     return null;
+}
+
+
+export const getDefaultDashboardRoute = (role: UserRole): string => {
+    if (role === "ADMIN") {
+        return "/admin/dashboard";
+    }
+    if (role === "GUIDE") {
+        return "/guide/dashboard";
+    }
+    if (role === "TOURIST") {
+        return "/dashboard";
+    }
+    return "/";
 }
 
 export const isValidRedirectForRole = (redirectPath: string, role: UserRole): boolean => {

@@ -2,9 +2,10 @@
 "use server"
 import { parse } from "cookie";
 import { loginValidationZodSchema } from "./validationSchemas";
-import { UserRole } from "@/lib/auth-utils";
+import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/auth-utils";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 
 export const loginUser = async (_currentState: any, formData: any): Promise<any> => {
@@ -91,6 +92,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         const userRole: UserRole = verifiedToken.role;
           if (redirectTo) {
             const requestedPath = redirectTo.toString();
+            console.log({requestedPath})
             if (isValidRedirectForRole(requestedPath, userRole)) {
                 redirect(requestedPath);
             } else {
@@ -99,6 +101,8 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         }
 
     } catch (error) {
+          // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+        
         console.log(error);
         return { error: "Login failed" };
     }

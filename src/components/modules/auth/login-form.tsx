@@ -43,11 +43,7 @@ const LoginForm = () => {
                         //   required
                         />
 
-                        {getFieldError("email") && (
-                            <FieldDescription className="text-red-600">
-                                {getFieldError("email")}
-                            </FieldDescription>
-                        )}
+                       
                     </Field>
 
                     {/* Password */}
