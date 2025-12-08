@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import LogoutButton from "@/components/shared/buttons/LogoutButton";
 
 // GuideNest Navbar
 // - Next.js + TypeScript + Tailwind
@@ -119,14 +120,15 @@ const pathname = usePathname();
                       <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-slate-50">
                         Profile
                       </Link>
-                      <button
+                      <LogoutButton/>
+                      {/* <button
                         onClick={() => {
                           // sign out logic
                         }}
                         className="w-full text-left block px-4 py-2 text-sm hover:bg-slate-50"
                       >
                         Sign out
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 )}
