@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // GuideNest Navbar
 // - Next.js + TypeScript + Tailwind
@@ -24,13 +25,12 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Support", href: "/support" },
 ];
 
-export default function Navbar() {
+export default function Navbar({accessToken}: {accessToken:any}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const router = useRouter();
-
-  // Replace with actual auth state from your app
-  const isAuthenticated = false; // toggle in your app
+const pathname = usePathname();
+  console.log(accessToken)
   const user = {
     name: "Alexandra",
     email: "alex@example.com",
@@ -66,7 +66,7 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               className={`text-sm font-medium transition-colors ${
-                router.pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
+                pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
               }`}
             >
               {item.label}
@@ -78,7 +78,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           {/* Desktop auth actions */}
           <div className="hidden md:flex items-center gap-3">
-            {!isAuthenticated ? (
+            {!accessToken ? (
               <>
                 <Link
                   href="/login"
@@ -183,7 +183,7 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    router.pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
+                    pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
                   }`}
                 >
                   {item.label}
@@ -192,7 +192,7 @@ export default function Navbar() {
             </nav>
 
             <div className="mt-6 border-t pt-4">
-              {!isAuthenticated ? (
+              {!accessToken ? (
                 <div className="space-y-3">
                   <Link href="/login" className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-50">
                     Login

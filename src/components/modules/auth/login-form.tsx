@@ -5,10 +5,12 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { loginUser } from "@/services/auth/loginUser";
 import { useRouter } from "next/navigation";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
-const LoginForm = () => {
+const LoginForm = ({ redirect }: { redirect?: string }) => {
+    console.log(redirect)
     const [state, formAction, isPending] = useActionState(loginUser, null);
     const router = useRouter()
 
@@ -20,16 +22,28 @@ const LoginForm = () => {
             return null;
         }
     };
-    if (state?.success) {
-        Swal.fire({
-            title: `${state.message}`,
-            icon: "success",
-            draggable: true
-        });
-        router.push("/")
-    }
+
+    useEffect(() => {
+        if (state?.error) {
+            console.log("object")
+            toast.error(state?.message)
+
+        }
+        if (state?.success) {
+            Swal.fire({
+                title: `${state.message}`,
+                icon: "success",
+                draggable: true
+            });
+            router.push("/")
+        }
+    }, [state])
+
     return (
         <form action={formAction}>
+            {
+                redirect && <input type="hidden" name="redirect" value={redirect} />
+            }
             <FieldGroup>
                 <div className="grid grid-cols-1 gap-4">
                     {/* Email */}
@@ -43,7 +57,7 @@ const LoginForm = () => {
                         //   required
                         />
 
-                       
+
                     </Field>
 
                     {/* Password */}

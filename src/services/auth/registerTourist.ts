@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { loginUser } from "./loginUser";
 import { registerValidationZodSchema } from "./validationSchemas";
 
 
@@ -70,10 +71,10 @@ export const registerTourist = async (_currentState: any, formData: FormData): P
 
         // Create new FormData for backend
         const backendFormData = new FormData();
-        
+
         // Append data as JSON string
         backendFormData.append("data", JSON.stringify(registerData));
-        
+
         // Append file if exists
         if (file && file.size > 0) {
             backendFormData.append("file", file);
@@ -85,26 +86,36 @@ export const registerTourist = async (_currentState: any, formData: FormData): P
             body: backendFormData,
         });
 
-        const data = await res.json();
+        const result = await res.json();
 
-        if (!res.ok) {
-            return {
-                success: false,
-                error: data.message || "Registration failed"
-            };
+        console.log(res, "res");
+
+        if (result.success) {
+            await loginUser(_currentState, formData);
         }
 
-        return {
-            success: true,
-            message: "Registration successful! Please login.",
-            data
-        };
+        // if (!res.ok) {
+        //     return {
+        //         success: false,
+        //         error: data.message || "Registration failed"
+        //     };
+        // }
 
-    } catch (error) {
+        // return {
+        //     success: true,
+        //     message: "Registration successful! Please login.",
+        //     data
+        // };
+        return result;
+
+    } catch (error: any) {
         console.error("Registration error:", error);
-        return { 
+        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+            throw error;
+        }
+        return {
             success: false,
-            error: "Registration failed. Please try again." 
+            error: "Registration failed. Please try again."
         };
     }
 }

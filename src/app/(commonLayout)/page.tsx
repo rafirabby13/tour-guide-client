@@ -1,10 +1,10 @@
 import LandingPagePreview from "@/components/modules/home/FeaturedDestinations";
-import Navbar from "@/components/modules/home/Navbar";
+import NavbarServer from "@/components/modules/home/NavbarServer";
 
 export default function Home() {
   return (
     <div>
-      <Navbar/>
+      <NavbarServer/>
       <LandingPagePreview/>
     </div>
   );

@@ -1,10 +1,11 @@
+
 import { getDefaultDashboardRoute, getRouteOwner, isAuthRoute, UserRole } from '@/lib/auth-utils';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { ChessKing } from 'lucide-react';
 import { NextResponse, NextRequest } from 'next/server'
+import { deleteCookie } from './services/auth/tokenHandlers';
 
 // This function can be marked `async` if using `await` inside
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     console.log("pathname", request.nextUrl.pathname)
     const pathname = request.nextUrl.pathname;
     //   return NextResponse.redirect(new URL('/', request.url))
@@ -14,8 +15,10 @@ export function proxy(request: NextRequest) {
         const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
 
         if (typeof verifiedToken === "string") {
-            cookieStore.delete("accessToken");
-            cookieStore.delete("refreshToken");
+            // cookieStore.delete("accessToken");
+            // cookieStore.delete("refreshToken");
+            await deleteCookie("accessToken")
+            await deleteCookie("refreshToken")
             return NextResponse.redirect(new URL('/login', request.url));
         }
 
