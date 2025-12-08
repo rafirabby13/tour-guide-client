@@ -37,119 +37,91 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
     ]
 }
 
-export const doctorNavItems: NavSection[] = [
+export const guideNavItems: NavSection[] = [
     {
-        title: "Patient Management",
+        title: "Tour Management",
         items: [
             {
-                title: "Appointments",
-                href: "/doctor/dashboard/appoinments",
-                icon: "Calendar", // ✅ String
-                badge: "3",
+                title: "My Listings",
+                href: "/dashboard/listings",
+                icon: "MapPin", // updated for tours
                 roles: ["GUIDE"],
             },
             {
-                title: "My Schedules",
-                href: "/doctor/dashboard/my-schedules",
-                icon: "Clock", // ✅ String
-                roles: ["GUIDE"],
-            },
-            {
-                title: "Prescriptions",
-                href: "/doctor/dashboard/prescriptions",
-                icon: "FileText", // ✅ String
+                title: "Bookings",
+                href: "/dashboard/bookings",
+                icon: "CalendarCheck", // bookings icon
                 roles: ["GUIDE"],
             },
         ],
-    }
-]
-
-export const patientNavItems: NavSection[] = [
+    },
+];
+export const touristNavItems: NavSection[] = [
     {
-        title: "Appointments",
+        title: "My Trips",
         items: [
             {
-                title: "My Appointments",
-                href: "/dashboard/my-appointments",
-                icon: "Calendar", // ✅ String
+                title: "Upcoming Trips",
+                href: "/dashboard/my-trips/upcoming",
+                icon: "Calendar", // upcoming trips icon
                 roles: ["TOURIST"],
             },
             {
-                title: "Book Appointment",
-                href: "/consultation",
-                icon: "ClipboardList", // ✅ String
+                title: "Past Trips",
+                href: "/dashboard/my-trips/past",
+                icon: "Clock", // past trips icon
+                roles: ["TOURIST"],
+            },
+            {
+                title: "Wishlist",
+                href: "/dashboard/wishlist",
+                icon: "Heart", // wishlist icon
                 roles: ["TOURIST"],
             },
         ],
     },
-    {
-        title: "Medical Records",
-        items: [
-            {
-                title: "My Prescriptions",
-                href: "/dashboard/my-prescriptions",
-                icon: "FileText", // ✅ String
-                roles: ["TOURIST"],
-            },
-            {
-                title: "Health Records",
-                href: "/dashboard/health-records",
-                icon: "Activity", // ✅ String
-                roles: ["TOURIST"],
-            },
-        ],
-    },
-
-]
-
+];
 export const adminNavItems: NavSection[] = [
     {
         title: "User Management",
         items: [
             {
-                title: "Admins",
-                href: "/admin/dashboard/admins-management",
-                icon: "Shield", // ✅ String
+                title: "Tourists",
+                href: "/admin/dashboard/tourists-management",
+                icon: "Users",
                 roles: ["ADMIN"],
             },
             {
-                title: "Doctors",
-                href: "/admin/dashboard/doctors-management",
-                icon: "Stethoscope", // ✅ String
-                roles: ["ADMIN"],
-            },
-            {
-                title: "Patients",
-                href: "/admin/dashboard/patients-management",
-                icon: "Users", // ✅ String
+                title: "Guides",
+                href: "/admin/dashboard/guides-management",
+                icon: "UserCheck",
                 roles: ["ADMIN"],
             },
         ],
     },
     {
-        title: "Hospital Management",
+        title: "Listing Management",
         items: [
             {
-                title: "Appointments",
-                href: "/admin/dashboard/appointments-management",
-                icon: "Calendar", // ✅ String
-                roles: ["ADMIN"],
-            },
-            {
-                title: "Schedules",
-                href: "/admin/dashboard/schedules-management",
-                icon: "Clock", // ✅ String
-                roles: ["ADMIN"],
-            },
-            {
-                title: "Specialities",
-                href: "/admin/dashboard/specialities-management",
-                icon: "Hospital", // ✅ String
+                title: "All Tours",
+                href: "/admin/dashboard/listings-management",
+                icon: "MapPin",
                 roles: ["ADMIN"],
             },
         ],
-    }
-]
+    },
+    {
+        title: "Booking Management",
+        items: [
+            {
+                title: "All Bookings",
+                href: "/admin/dashboard/bookings-management",
+                icon: "CalendarCheck",
+                roles: ["ADMIN"],
+            },
+        ],
+    },
+];
 
 export const getNavItemsByRole = (role: UserRole): NavSection[] => {
     const commonNavItems = getCommonNavItems(role);
@@ -158,9 +130,9 @@ export const getNavItemsByRole = (role: UserRole): NavSection[] => {
         case "ADMIN":
             return [...commonNavItems, ...adminNavItems];
         case "GUIDE":
-            return [...commonNavItems, ...doctorNavItems];
+            return [...commonNavItems, ...guideNavItems];
         case "TOURIST":
-            return [...commonNavItems, ...patientNavItems];
+            return [...commonNavItems, ...touristNavItems];
         default:
             return [];
     }
