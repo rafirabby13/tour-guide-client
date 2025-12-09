@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import DeleteConfirmationDialog from '@/components/shared/alert/DeleteConfirmationDialog';
+import EditUserDialog from '@/components/shared/alert/EditUserDialog';
 import ManagementTables, { Column } from '@/components/shared/tables/ManagementTables';
-import { deleteUser } from '@/services/admin/userManagement';
+import { deleteUser, updateUserRole, updateUserStatus } from '@/services/admin/userManagement';
 import { IUser } from '@/types/user.interface';
 import React, { useState } from 'react'
 
@@ -11,10 +13,12 @@ const UserManagementTable = ({ users }: { users: IUser[] }) => {
 
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
-    const validusers =  userList.filter(user=> user.isDeleted == false )
-    
+    const validusers = userList?.filter(user => user.isDeleted === false)
+
 
     const columns: Column<any>[] = [
         {
@@ -49,9 +53,60 @@ const UserManagementTable = ({ users }: { users: IUser[] }) => {
             setSelectedUser(null);
         }
     };
-    const handleEdit = (item: IUser) => {
-        console.log(item)
+    const handleEditClick = (item: IUser) => {
+        setSelectedUser(item);
+        setIsEditDialogOpen(true);
     }
+    const handleConfirmEdit = async (data: any) => {
+        if (!selectedUser) return;
+        setIsEditing(true);
+        try {
+            console.log("object", data)
+            if (data?.role !== selectedUser.role && data?.status == selectedUser.status) {
+                await updateUserRole(selectedUser.id, data.role)
+                setUserList((prevUsers) =>
+                    prevUsers.map((user) =>
+                        user.id === selectedUser.id
+                            ? { ...user, role: data.role }
+                            : user
+                    )
+                );
+            }
+            if (data?.status !== selectedUser.status && data?.role == selectedUser.role) {
+                console.log(selectedUser.id, data.status)
+                await updateUserStatus(selectedUser.id, data.status)
+                setUserList((prevUsers) =>
+                    prevUsers.map((user) =>
+                        user.id === selectedUser.id
+                            ? { ...user, status: data.status }
+                            : user
+                    )
+                );
+            }
+            if (data?.status !== selectedUser.status && data?.role !== selectedUser.role) {
+                console.log(selectedUser.id, data.status)
+                await Promise.all([
+
+                    updateUserStatus(selectedUser.id, data.status),
+                    updateUserRole(selectedUser.id, data.role)
+
+                ])
+                setUserList((prevUsers) =>
+                    prevUsers.map((user) =>
+                        user.id === selectedUser.id
+                            ? { ...user, status: data.status, role: data.role }
+                            : user
+                    )
+                )
+            }
+        } catch (error) {
+            console.error("Delete failed", error);
+        } finally {
+            setIsEditing(false);
+            setIsEditDialogOpen(false);
+            setSelectedUser(null);
+        }
+    };
     return (
         <div>
             <ManagementTables
@@ -59,7 +114,7 @@ const UserManagementTable = ({ users }: { users: IUser[] }) => {
                 columns={columns}
                 getRowKey={(row) => row.id}
                 onDelete={handleDeleteClick}
-                onEdit={handleEdit}
+                onEdit={handleEditClick}
 
             />
             <DeleteConfirmationDialog
@@ -69,6 +124,14 @@ const UserManagementTable = ({ users }: { users: IUser[] }) => {
                 itemName={selectedUser?.email}
                 isDeleting={isDeleting}
                 title="Delete User"
+            />
+            <EditUserDialog
+                key={selectedUser?.id as string}
+                onOpenChange={setIsEditDialogOpen}
+                onConfirm={(updatedData) => handleConfirmEdit(updatedData)}
+                open={isEditDialogOpen}
+                user={selectedUser}
+                isEditing={isEditing}
             />
         </div>
     )

@@ -9,7 +9,7 @@ const UsersManagementPage = async () => {
 
     return (
         <div>
-          <UserManagementTable users={users.data}/>
+          <UserManagementTable users={users?.data}/>
         </div>
     )
 }

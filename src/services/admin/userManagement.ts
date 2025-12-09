@@ -58,9 +58,14 @@ export async function updateUserRole(userId: string, role: string) {
 }
 
 
-export async function toggleUserStatus(userId: string) {
+export async function updateUserStatus(userId: string, status: "ACTIVE" | "INACTIVE" | "DELETED") {
     try {
-        const response = await serverFetch.patch(`/user/${userId}/toggle-status`);
+        const response = await serverFetch.patch(`/user/${userId}/update-status`,{
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status }),
+        });
         return await response.json();
     } catch (error) {
         return { success: false, message: "Failed to toggle user status" };

@@ -98,8 +98,8 @@ export const adminNavItems: NavSection[] = [
                 roles: ["ADMIN"],
             },
             {
-                title: "Guides",
-                href: "/admin/dashboard/guides-management",
+                title: "Create Guide",
+                href: "/admin/dashboard/create-guide",
                 icon: "UserCheck",
                 roles: ["ADMIN"],
             },

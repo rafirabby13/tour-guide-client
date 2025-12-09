@@ -14,35 +14,28 @@ import {
 
 interface EditUserDialogProps {
     open: boolean;
+    key: string,
     onOpenChange: (open: boolean) => void;
     user: IUser | null;
-    onSave: (updatedUser: Partial<IUser>) => void;
+    onConfirm: (data: { id: string; role: IUser["role"]; status: IUser["status"] }) => void;
+    isEditing?: boolean;
 }
 
-const EditUserDialog = ({ open, onOpenChange, user, onSave }: EditUserDialogProps) => {
-    // Initialize with a safe default, but allow specific User Role types
-    const [role, setRole] = useState<IUser["role"] | "">("");
-    const [status, setStatus] = useState<IUser["status"] | "">("");
+const EditUserDialog = ({ open, onOpenChange, user, onConfirm,isEditing }: EditUserDialogProps) => {
+    const [role, setRole] = useState<IUser["role"] | "">(user?.role || "");
+  const [status, setStatus] = useState<IUser["status"] | "">(user?.status || "");
+   
 
-    useEffect(() => {
-        if (user && open) {
-            setRole(user.role);
-            setStatus(user.status);
-        }
-    }, [user, open]);
+const handleSave = () => {
+        // Guard clause to ensure we have a user and valid inputs
+        if (!user || !role || !status) return;
 
-    const handleSave = () => {
-        if (!user) return;
-        
-        // Ensure we don't save empty states
-        if (role && status) {
-            onSave({ 
-                id: user.id, 
-                role: role as IUser["role"], 
-                status: status as IUser["status"] 
-            });
-            onOpenChange(false);
-        }
+        // Call the parent function with the local state
+        onConfirm({
+            id: user.id,
+            role: role as IUser["role"],
+            status: status as IUser["status"],
+        });
     };
 
     return (
@@ -51,10 +44,10 @@ const EditUserDialog = ({ open, onOpenChange, user, onSave }: EditUserDialogProp
                 <DialogHeader>
                     <DialogTitle>Edit User</DialogTitle>
                     <DialogDescription>
-                        Make changes to the user's role and account status here.
+                        Make changes to the user&apos;s role and account status here.
                     </DialogDescription>
                 </DialogHeader>
-                
+
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
                         <label htmlFor="role" className="text-sm font-medium">
@@ -84,7 +77,7 @@ const EditUserDialog = ({ open, onOpenChange, user, onSave }: EditUserDialogProp
                         >
                             <option value="ACTIVE">Active</option>
                             <option value="INACTIVE">Inactive</option>
-                            <option value="DELETED">Deleted</option>
+                            {/* <option value="DELETED">Deleted</option> */}
                         </select>
                     </div>
                 </div>
@@ -93,7 +86,14 @@ const EditUserDialog = ({ open, onOpenChange, user, onSave }: EditUserDialogProp
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
                         Cancel
                     </Button>
-                    <Button onClick={handleSave}>Save changes</Button>
+                    <Button
+                     onClick={handleSave}
+                     disabled={isEditing}
+                     >
+                        {
+                            isEditing ? "Editing": "Save changes"
+                        }
+                        </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
