@@ -6,10 +6,11 @@ import { IUser } from '@/types/user.interface'
 
 const UsersManagementPage = async () => {
    const users = await getAllUsers()
+   console.log({users})
 
     return (
         <div>
-          <UserManagementTable users={users?.data}/>
+          <UserManagementTable users={users?.data} meta={users?.meta}/>
         </div>
     )
 }

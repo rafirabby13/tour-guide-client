@@ -5,10 +5,11 @@ import DeleteConfirmationDialog from '@/components/shared/alert/DeleteConfirmati
 import EditUserDialog from '@/components/shared/alert/EditUserDialog';
 import ManagementTables, { Column } from '@/components/shared/tables/ManagementTables';
 import { deleteUser, updateUserRole, updateUserStatus } from '@/services/admin/userManagement';
+import { IMeta } from '@/types/meta.interface';
 import { IUser } from '@/types/user.interface';
 import React, { useState } from 'react'
 
-const UserManagementTable = ({ users }: { users: IUser[] }) => {
+const UserManagementTable = ({ users, meta }: { users: IUser[], meta: IMeta }) => {
     const [userList, setUserList] = useState(users);
 
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
@@ -16,6 +17,8 @@ const UserManagementTable = ({ users }: { users: IUser[] }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+
+    console.log({users})
 
     const validusers = userList?.filter(user => user.isDeleted === false)
 

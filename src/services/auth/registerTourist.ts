@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { serverFetch } from "@/lib/server-fetch";
 import { loginUser } from "./loginUser";
 import { registerValidationZodSchema } from "./validationSchemas";
 
@@ -81,7 +82,7 @@ export const registerTourist = async (_currentState: any, formData: FormData): P
         }
 
         // Send to backend
-        const res = await fetch("http://localhost:5000/api/v1/user/create-tourist", {
+        const res = await serverFetch.post("/user/create-tourist", {
             method: "POST",
             body: backendFormData,
         });

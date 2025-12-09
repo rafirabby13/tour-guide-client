@@ -1,11 +1,12 @@
+import { CreateGuide } from '@/components/modules/admin/CreateGuide'
 import React from 'react'
 
-const CreateGuide = () => {
+const CreateGuidePage = () => {
   return (
     <div>
-      CreateGuide
+      <CreateGuide/>
     </div>
   )
 }
 
-export default CreateGuide
+export default CreateGuidePage
