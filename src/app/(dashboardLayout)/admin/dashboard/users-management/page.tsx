@@ -2,11 +2,16 @@
 "use server"
 import UserManagementTable from '@/components/modules/admin/UserManagementTable'
 import { getAllUsers } from '@/services/admin/userManagement'
-import { IUser } from '@/types/user.interface'
-
-const UsersManagementPage = async () => {
-   const users = await getAllUsers()
+interface SearchParamsProps {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+const UsersManagementPage = async ({ searchParams }: SearchParamsProps) => {
+  const query = await searchParams;
+  console.log({query})
+   const users = await getAllUsers(query )
    console.log({users})
+    // const validusers = userList?.filter(user => user.isDeleted === false)
+
 
     return (
         <div>

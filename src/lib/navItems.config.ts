@@ -33,13 +33,13 @@ export const guideNavItems: NavSection[] = [
         items: [
             {
                 title: "My Listings",
-                href: "/dashboard/listings",
+                href: "/guide/dashboard/listings",
                 icon: "MapPin", // updated for tours
                 roles: ["GUIDE"],
             },
             {
                 title: "Bookings",
-                href: "/dashboard/bookings",
+                href: "/guide/dashboard/bookings",
                 icon: "CalendarCheck", // bookings icon
                 roles: ["GUIDE"],
             },

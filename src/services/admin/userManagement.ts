@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { serverFetch } from "@/lib/server-fetch";
 
-export async function getAllUsers() {
+export async function getAllUsers(query: Record<string, any>) {
     try {
-        const response = await serverFetch.get("/user/all-users")
+
+        const page = Number(query.page)
+        const response = await serverFetch.get(`/user/all-users?page=${page ? page : 1}&isDeleted=false`)
         const result = await response.json()
         return result
     } catch (error) {
@@ -23,7 +26,7 @@ export async function createAdmin(formData: FormData) {
         // ⚠️ Note: Do NOT set 'Content-Type': 'application/json' for FormData
         // The browser/fetch automatically sets the correct multipart boundary
         const response = await serverFetch.post("/user/create-admin", {
-            body: formData, 
+            body: formData,
         });
         return await response.json();
     } catch (error) {
@@ -60,7 +63,7 @@ export async function updateUserRole(userId: string, role: string) {
 
 export async function updateUserStatus(userId: string, status: "ACTIVE" | "INACTIVE" | "DELETED") {
     try {
-        const response = await serverFetch.patch(`/user/${userId}/update-status`,{
+        const response = await serverFetch.patch(`/user/${userId}/update-status`, {
             headers: {
                 "Content-Type": "application/json",
             },
