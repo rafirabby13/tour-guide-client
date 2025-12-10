@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 
 // Enums matching your Prisma Schema
 const GenderEnum = z.enum(["MALE", "FEMALE"]);
@@ -48,10 +48,11 @@ export const guideProfileSchema = baseSchema.extend({
 /* -------------------------------------------------------------------------- */
 // Tourist: contactNumber & gender are REQUIRED in DB
 export const touristProfileSchema = baseSchema.extend({
-  contactNumber: z.string().min(1, "Contact number is required for Tourists"),
-  gender: GenderEnum, // Required in DB
+  contactNumber: z.string().min(10, "Contact number is required for Tourists"),
   
-  // Arrays
+  // FIX: Add .optional() so 'undefined' passes validation
+  gender: GenderEnum.optional(), 
+
   languages: z.array(z.string()).optional(),
   category: z.array(z.string()).optional(),
 });

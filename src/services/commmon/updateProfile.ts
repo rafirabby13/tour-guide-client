@@ -47,6 +47,7 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
 
             // 👇 FIX: This ensures gender is 'undefined' instead of 'null' if not selected
             gender: getValue("gender"),
+            image: getValue("profilePhoto"),
 
             city: getValue("city"),
             country: getValue("country"),

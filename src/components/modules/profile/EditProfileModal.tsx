@@ -47,6 +47,7 @@ export default function EditProfileModal({
   // Consolidate profile data
   const profile = user.admin || user.tourist || user.guide || {};
   const isGuide = user.role === "GUIDE";
+  const isTourist = user.role === "TOURIST";
 
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -180,9 +181,26 @@ export default function EditProfileModal({
                 placeholder="Enter your address"
               />
             </Field>
+            {(isGuide || isTourist) && (
+                <div className="space-y-4 pt-2">
+                    <MultiSelectField
+                        label={isGuide ? "Languages Spoken" : "Preferred Languages"}
+                        name="languages"
+                        options={LANGUAGES}
+                        defaultValues={profile?.languages || []}
+                    />
+
+                    <MultiSelectField
+                        label={isGuide ? "Expertise Categories" : "Interested Categories"}
+                        name="category"
+                        options={CATEGORIES}
+                        defaultValues={profile?.category || []}
+                    />
+                </div>
+            )}
 
             {/* --- Guide Specific Fields (Only shows if role is GUIDE) --- */}
-            {isGuide && (
+            {isGuide&& (
               <div className="space-y-4 pt-4 border-t">
                 <h3 className="text-sm font-medium text-muted-foreground">Guide Details</h3>
 
@@ -219,7 +237,7 @@ export default function EditProfileModal({
                     />
                   </Field>
                 </div>
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <MultiSelectField
                     label="Languages Spoken"
                     name="languages"
@@ -233,7 +251,7 @@ export default function EditProfileModal({
                     options={CATEGORIES}
                     defaultValues={user.guide?.category || []}
                   />
-                </div>
+                </div> */}
               </div>
             )}
 
