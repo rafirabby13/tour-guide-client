@@ -32,6 +32,12 @@ export const guideNavItems: NavSection[] = [
         title: "Tour Management",
         items: [
             {
+                title: "Create A Tour",
+                href: "/guide/dashboard/create-tour",
+                icon: "MapPin", // updated for tours
+                roles: ["GUIDE"],
+            },
+            {
                 title: "My Listings",
                 href: "/guide/dashboard/listings",
                 icon: "MapPin", // updated for tours
@@ -92,12 +98,12 @@ export const adminNavItems: NavSection[] = [
                 icon: "users",
                 roles: ["ADMIN"],
             },
-            {
-                title: "Tourists",
-                href: "/admin/dashboard/tourists-management",
-                icon: "Users",
-                roles: ["ADMIN"],
-            },
+            // {
+            //     title: "Tourists",
+            //     href: "/admin/dashboard/tourists-management",
+            //     icon: "Users",
+            //     roles: ["ADMIN"],
+            // },
             {
                 title: "Create Guide",
                 href: "/admin/dashboard/create-guide",

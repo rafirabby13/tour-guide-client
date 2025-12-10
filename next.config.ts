@@ -4,7 +4,7 @@ import { NextConfig } from "next/dist/types";
 const nextConfig: NextConfig = {
   /* config options here */
   //  productionBrowserSourceMaps: false,
-    images: {
+  images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,7 +14,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
+
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '15mb'
+    }
+  },
+
   reactCompiler: true,
 };
 

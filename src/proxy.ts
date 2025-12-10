@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
 
-        console.log({verifiedToken})
+        // console.log({verifiedToken})
 
         userRole = verifiedToken.role;
     }
