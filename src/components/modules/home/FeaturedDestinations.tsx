@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Search, MapPin, Star, Users, Globe, Shield, ArrowRight, Check, Quote } from 'lucide-react';
+import PopularTrips from './PopularTrips';
 
 const LandingPagePreview = () => {
   return (
     <div className="min-h-screen bg-background">
-     
+
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-gradient-to-b from-primary/5 to-background">
@@ -18,15 +19,15 @@ const LandingPagePreview = () => {
             <p className="text-xl text-muted-foreground">
               Connect with passionate local guides for authentic, personalized experiences. Skip the tourist traps and explore like a local.
             </p>
-            
+
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto mt-8">
               <div className="flex flex-col md:flex-row gap-3 p-2 bg-card border rounded-lg shadow-lg">
                 <div className="flex-1 flex items-center gap-2 px-3">
                   <MapPin className="h-5 w-5 text-muted-foreground" />
-                  <input 
-                    type="text" 
-                    placeholder="Where are you going?" 
+                  <input
+                    type="text"
+                    placeholder="Where are you going?"
                     className="w-full bg-transparent border-none outline-none text-sm"
                   />
                 </div>
@@ -64,7 +65,7 @@ const LandingPagePreview = () => {
               Experience authentic local culture in three simple steps
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               { step: "01", title: "Find Your Guide", desc: "Browse local experts by location, interest, or expertise", icon: Search },
@@ -90,28 +91,7 @@ const LandingPagePreview = () => {
       </section>
 
       {/* Popular Destinations */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Destinations</h2>
-            <p className="text-muted-foreground">Explore the most loved cities worldwide</p>
-          </div>
-          
-          <div className="grid md:grid-cols-4 gap-6">
-            {["Paris", "Tokyo", "New York", "Barcelona"].map((city, i) => (
-              <div key={i} className="group relative overflow-hidden rounded-lg border bg-card hover:shadow-lg transition-all cursor-pointer">
-                <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <MapPin className="h-12 w-12 text-primary/40" />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-1">{city}</h3>
-                  <p className="text-sm text-muted-foreground">120+ experiences</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PopularTrips />
 
       {/* Top Rated Guides */}
       <section className="py-20 bg-muted/30">
@@ -120,7 +100,7 @@ const LandingPagePreview = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Top Rated Guides</h2>
             <p className="text-muted-foreground">Meet our expert local guides</p>
           </div>
-          
+
           <div className="grid md:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((_, i) => (
               <div key={i} className="bg-card border rounded-lg p-6 hover:shadow-lg transition-shadow">
@@ -151,7 +131,7 @@ const LandingPagePreview = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Explore by Category</h2>
             <p className="text-muted-foreground">Find experiences that match your interests</p>
           </div>
-          
+
           <div className="grid md:grid-cols-6 gap-4">
             {["Food Tours", "History", "Adventure", "Art & Culture", "Nightlife", "Shopping"].map((cat, i) => (
               <div key={i} className="bg-card border rounded-lg p-6 text-center hover:shadow-md transition-shadow cursor-pointer group">
@@ -172,7 +152,7 @@ const LandingPagePreview = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose LocalGuide</h2>
             <p className="text-muted-foreground">The benefits of traveling with local experts</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               { title: "Authentic Experiences", desc: "Skip tourist traps and discover hidden gems only locals know", icon: Star },
@@ -198,7 +178,7 @@ const LandingPagePreview = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Travelers Say</h2>
             <p className="text-muted-foreground">Real experiences from our community</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[1, 2, 3].map((_, i) => (
               <div key={i} className="bg-card border rounded-lg p-6 space-y-4">
@@ -256,7 +236,7 @@ const LandingPagePreview = () => {
                 Connect with local guides for authentic travel experiences worldwide.
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold mb-4">For Travelers</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
@@ -265,7 +245,7 @@ const LandingPagePreview = () => {
                 <li><a href="#" className="hover:text-primary transition-colors">Popular Destinations</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="font-semibold mb-4">For Guides</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
@@ -274,7 +254,7 @@ const LandingPagePreview = () => {
                 <li><a href="#" className="hover:text-primary transition-colors">Guide Dashboard</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="font-semibold mb-4">Company</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
@@ -284,7 +264,7 @@ const LandingPagePreview = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
             <p>&copy; 2024 LocalGuide. All rights reserved.</p>
           </div>

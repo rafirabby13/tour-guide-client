@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { serverFetch } from "@/lib/server-fetch"
 
-export async function getAllTours(query: { [key: string]: string | string[] | undefined }) {
+export async function getAllTours() {
     try {
 
         // const page = Number(query.page)

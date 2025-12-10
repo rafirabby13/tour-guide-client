@@ -26,14 +26,17 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Support", href: "/support" },
 ];
 
-export default function Navbar({accessToken}: {accessToken:any}) {
+export default function Navbar({profile}: {profile:any}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const router = useRouter();
+  const role = profile?.role;
+  const lowerCaseRole = role?.toLowerCase()
+  const userData = profile[lowerCaseRole]
+  // console.log(userData.lowerCaseRole)
 const pathname = usePathname();
-  console.log(accessToken)
+  // console.log(profile)
   const user = {
-    name: "Alexandra",
+    name: userData ? userData?.name : "user",
     email: "alex@example.com",
     avatarUrl: "https://ui-avatars.com/api/?name=AN&background=0D8ABC&color=fff",
   };
@@ -79,7 +82,7 @@ const pathname = usePathname();
         <div className="flex items-center gap-3">
           {/* Desktop auth actions */}
           <div className="hidden md:flex items-center gap-3">
-            {!accessToken ? (
+            {!profile ? (
               <>
                 <Link
                   href="/login"
@@ -194,7 +197,7 @@ const pathname = usePathname();
             </nav>
 
             <div className="mt-6 border-t pt-4">
-              {!accessToken ? (
+              {!profile ? (
                 <div className="space-y-3">
                   <Link href="/login" className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-50">
                     Login
