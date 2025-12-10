@@ -111,7 +111,7 @@ export const adminNavItems: NavSection[] = [
         items: [
             {
                 title: "All Tours",
-                href: "/admin/dashboard/listings-management",
+                href: "/admin/dashboard/tour-management",
                 icon: "MapPin",
                 roles: ["ADMIN"],
             },
