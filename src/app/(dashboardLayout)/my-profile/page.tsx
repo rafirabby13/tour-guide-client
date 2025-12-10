@@ -6,7 +6,7 @@ import { getMyProfile } from "@/services/commmon/myProfile";
 export default async function MyProfilePage() {
   const profileData = await getMyProfile();
 
-  console.log(profileData)
+  // console.log(profileData)
 
   if (!profileData.success) {
     redirect("/login");
@@ -14,7 +14,7 @@ export default async function MyProfilePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProfileContent user={profileData.data} />
+      <ProfileContent user={profileData?.data} />
     </div>
   );
 }

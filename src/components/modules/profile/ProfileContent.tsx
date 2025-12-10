@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
+import EditProfileModal from "./EditProfileModal";
 
 interface ProfileProps {
   user: {
@@ -299,11 +300,11 @@ export default function ProfileContent({ user }: ProfileProps) {
       </div>
 
       {/* Edit Profile Modal */}
-      {/* <EditProfileModal
+      <EditProfileModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         user={user}
-      /> */}
+      />
     </>
   );
 }
