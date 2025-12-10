@@ -1,3 +1,5 @@
+import GuideBookingsTable from '@/components/modules/guide/GuideBookingsTable'
+import GuideBookings from '@/components/modules/guide/GuideBookingsTable'
 import { getGuideBookings } from '@/services/guide/booking'
 import React from 'react'
 
@@ -6,7 +8,7 @@ const BookingPage = async () => {
     console.log(bookings)
   return (
     <div>
-      BookingPage
+      <GuideBookingsTable bookings={bookings.data} meta={bookings.meta}/>
     </div>
   )
 }

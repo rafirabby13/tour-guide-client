@@ -64,27 +64,26 @@ export const guideNavItems: NavSection[] = [
     },
 ];
 export const touristNavItems: NavSection[] = [
+       {
+        title: "Trips",
+        items: [
+            {
+                title: "Book Trip",
+                href: "/dashboard/book-a-trip",
+                icon: "Book", 
+                roles: ["TOURIST"],
+            },
+        ],
+    },
     {
         title: "My Trips",
         items: [
             {
-                title: "Upcoming Trips",
-                href: "/dashboard/my-trips/upcoming",
+                title: "My Bookings",
+                href: "/dashboard/my-bookings",
                 icon: "Calendar", // upcoming trips icon
                 roles: ["TOURIST"],
-            },
-            {
-                title: "Past Trips",
-                href: "/dashboard/my-trips/past",
-                icon: "Clock", // past trips icon
-                roles: ["TOURIST"],
-            },
-            {
-                title: "Wishlist",
-                href: "/dashboard/wishlist",
-                icon: "Heart", // wishlist icon
-                roles: ["TOURIST"],
-            },
+            }
         ],
     },
 ];

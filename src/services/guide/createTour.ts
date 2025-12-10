@@ -64,11 +64,7 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
         let b = 0;
         while (formData.has(`blockedDates[${b}][blockedDate]`)) {
             blockedDates.push({
-                blockedDate: formData.get(`blockedDates[${b}][blockedDate]`),
-                startTime: formData.get(`blockedDates[${b}][startTime]`) || undefined,
-                endTime: formData.get(`blockedDates[${b}][endTime]`) || undefined,
-                isAllDay: formData.get(`blockedDates[${b}][isAllDay]`) === "false" ? false : true,
-                reason: formData.get(`blockedDates[${b}][reason]`) || undefined,
+                blockedDate: formData.get(`blockedDates[${b}][blockedDate]`)
             });
             b++;
         }
@@ -79,7 +75,6 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
             description: formData.get("description"),
             location: formData.get("location"),
             guideId: guide.data.id,
-            availableDates: formData.getAll("availableDates") as string[] || [],
             tourPricings,
             tourAvailabilities,
             blockedDates: blockedDates.length > 0 ? blockedDates : undefined,
