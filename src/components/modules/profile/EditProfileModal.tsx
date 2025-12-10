@@ -24,6 +24,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { updateMyProfile } from "@/services/commmon/updateProfile";
+import { CATEGORIES, LANGUAGES, MultiSelectField } from "@/components/shared/multi-select/MultiSelectField";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -37,12 +38,12 @@ export default function EditProfileModal({
   user,
 }: EditProfileModalProps) {
   const router = useRouter();
-  
+
   // Hook for Server Action
   const [state, formAction, isPending] = useActionState(updateMyProfile, null);
 
 
-  
+
   // Consolidate profile data
   const profile = user.admin || user.tourist || user.guide || {};
   const isGuide = user.role === "GUIDE";
@@ -76,14 +77,15 @@ export default function EditProfileModal({
     setPreview(URL.createObjectURL(file));
   };
 
-  
+
 
   // Effect: Handle Success/Error
   useEffect(() => {
     if (state?.error) {
+      console.log(state)
       Swal.fire({
         title: "Error Occurred",
-        text: state.error,
+        text: state.error.message,
         icon: "error",
       });
     }
@@ -102,7 +104,7 @@ export default function EditProfileModal({
 
   return (
     <Dialog open={isOpen} >
-        
+
       <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
@@ -112,34 +114,34 @@ export default function EditProfileModal({
           <FieldGroup className="space-y-4">
 
             {/* --- Profile Photo --- */}
-            
 
-               <Field className="md:col-span-2">
-                        <FieldLabel>Profile Photo</FieldLabel>
-                        <Input
-                            type="file"
-                            name="file"
-                            accept="image/*"
-                            onChange={handlePhotoUpload}
-                        />
 
-                        {preview && (
-                            <Image
-                                src={preview}
-                                width={300}
-                                height={100}
-                                alt="preview"
-                                className="mt-2 w-24 h-24 rounded-md object-cover border"
-                            />
-                        )}
+            <Field className="md:col-span-2">
+              <FieldLabel>Profile Photo</FieldLabel>
+              <Input
+                type="file"
+                name="file"
+                accept="image/*"
+                onChange={handlePhotoUpload}
+              />
 
-                        {getFieldError("file") && (
-                            <FieldDescription className="text-red-600">
-                                {getFieldError("file")}
-                            </FieldDescription>
-                        )}
-                    </Field>
-             
+              {preview && (
+                <Image
+                  src={preview}
+                  width={300}
+                  height={100}
+                  alt="preview"
+                  className="mt-2 w-24 h-24 rounded-md object-cover border"
+                />
+              )}
+
+              {getFieldError("file") && (
+                <FieldDescription className="text-red-600">
+                  {getFieldError("file")}
+                </FieldDescription>
+              )}
+            </Field>
+
 
             {/* --- Basic Info (All Users) --- */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -170,20 +172,20 @@ export default function EditProfileModal({
 
             {/* 🚀 FIX 4: Added Address Field (It was missing!) */}
             <Field>
-                <FieldLabel htmlFor="address">Address</FieldLabel>
-                <Input 
-                    id="address" 
-                    name="address" 
-                    defaultValue={profile?.address || ""} 
-                    placeholder="Enter your address"
-                />
+              <FieldLabel htmlFor="address">Address</FieldLabel>
+              <Input
+                id="address"
+                name="address"
+                defaultValue={profile?.address || ""}
+                placeholder="Enter your address"
+              />
             </Field>
 
             {/* --- Guide Specific Fields (Only shows if role is GUIDE) --- */}
             {isGuide && (
               <div className="space-y-4 pt-4 border-t">
                 <h3 className="text-sm font-medium text-muted-foreground">Guide Details</h3>
-                
+
                 <Field>
                   <FieldLabel htmlFor="bio">Bio</FieldLabel>
                   <Textarea
@@ -216,6 +218,21 @@ export default function EditProfileModal({
                       defaultValue={user.guide?.experience || 0}
                     />
                   </Field>
+                </div>
+                <div className="space-y-4">
+                  <MultiSelectField
+                    label="Languages Spoken"
+                    name="languages"
+                    options={LANGUAGES}
+                    defaultValues={user.guide?.languages || []}
+                  />
+
+                  <MultiSelectField
+                    label="Expertise Categories"
+                    name="category"
+                    options={CATEGORIES}
+                    defaultValues={user.guide?.category || []}
+                  />
                 </div>
               </div>
             )}

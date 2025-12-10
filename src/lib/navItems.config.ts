@@ -22,18 +22,8 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
                 },
 
             ]
-        },
-        {
-            title: "Settings",
-            items: [
-                {
-                    title: "Change Password",
-                    href: "/change-password",
-                    icon: "Settings", // ✅ String
-                    roles: ["GUIDE"],
-                },
-            ],
-        },
+        }
+
     ]
 }
 
@@ -51,6 +41,17 @@ export const guideNavItems: NavSection[] = [
                 title: "Bookings",
                 href: "/dashboard/bookings",
                 icon: "CalendarCheck", // bookings icon
+                roles: ["GUIDE"],
+            },
+        ],
+    },
+    {
+        title: "Settings",
+        items: [
+            {
+                title: "Change Password",
+                href: "/change-password",
+                icon: "Settings", // ✅ String
                 roles: ["GUIDE"],
             },
         ],

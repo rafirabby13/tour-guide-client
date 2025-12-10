@@ -28,7 +28,8 @@ export const adminProfileSchema = baseSchema.extend({
 /* -------------------------------------------------------------------------- */
 // Guide: ALMOST EVERYTHING IS OPTIONAL in DB (String?)
 export const guideProfileSchema = baseSchema.extend({
-  contactNumber: z.string().optional().or(z.literal('')), // Optional in DB
+  name: z.string().optional(),
+  contactNumber: z.string().min(10, "at least 10 character").optional().or(z.literal('')), // Optional in DB
   gender: GenderEnum.optional().or(z.literal('')),       // Optional in DB
   
   bio: z.string().optional(),
@@ -39,6 +40,7 @@ export const guideProfileSchema = baseSchema.extend({
   // Arrays
   languages: z.array(z.string()).optional(),
   category: z.array(z.string()).optional(),
+  address: z.string().optional()
 });
 
 /* -------------------------------------------------------------------------- */

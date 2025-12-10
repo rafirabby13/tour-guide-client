@@ -15,6 +15,9 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
         // console.log(profile?.data?.role)
         const role = profile?.data?.role
 
+
+        console.log({ role })
+
         if (file && file.size > 0) {
             if (file.size > 5 * 1024 * 1024) {
                 return {
@@ -30,15 +33,28 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
             }
         }
 
+        const getValue = (key: string) => {
+            const value = formData.get(key);
+            // Convert empty string "" or null to undefined
+            return value && value !== "null" && value !== "" ? value : undefined;
+        };
+
         const rawData = {
-            name: formData.get('name'),
-            address: formData.get('address'),
-            contactNumber: formData.get('contactNumber'),
-            bio: formData.get('bio'),
-            gender: formData.get('gender'),
-            city: formData.get('city'),
-            country: formData.get('country'),
-            experience: formData.get('experience') ? Number(formData.get('experience')) : 0
+            name: getValue("name"),
+            address: getValue("address"),
+            contactNumber: getValue("contactNumber"),
+            bio: getValue("bio"),
+
+            // 👇 FIX: This ensures gender is 'undefined' instead of 'null' if not selected
+            gender: getValue("gender"),
+
+            city: getValue("city"),
+            country: getValue("country"),
+            experience: formData.get("experience") ? Number(formData.get("experience")) : undefined,
+
+            // Arrays need getAll
+            languages: formData.getAll("languages"),
+            category: formData.getAll("category"),
         };
 
         console.log({ rawData })
