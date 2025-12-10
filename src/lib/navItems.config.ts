@@ -39,7 +39,7 @@ export const guideNavItems: NavSection[] = [
             },
             {
                 title: "My Listings",
-                href: "/guide/dashboard/listings",
+                href: "/guide/dashboard/tour-listings",
                 icon: "MapPin", // updated for tours
                 roles: ["GUIDE"],
             },
