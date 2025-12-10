@@ -11,6 +11,7 @@ import TablePagination from '@/components/shared/tables/TablePagination';
 import { IMeta } from '@/types/meta.interface';
 import { ITour } from '@/types/tour.interface';
 import EditTourDialog from './EditTourModal';
+import { deleteTour } from '@/services/guide/deleteTour';
 
 const MyListingToursTable = ({ tours, meta }: { tours: ITour[], meta: IMeta }) => {
 
@@ -72,7 +73,7 @@ const MyListingToursTable = ({ tours, meta }: { tours: ITour[], meta: IMeta }) =
         if (!selectedTour) return;
         setIsDeleting(true);
         try {
-            // await deleteTour(selectedTour.id); 
+            await deleteTour(selectedTour.id); 
             setTourList(prev => prev.filter((t) => t.id !== selectedTour.id));
         } catch (error) {
             console.error("Delete failed", error);
