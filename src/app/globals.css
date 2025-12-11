@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -112,6 +112,186 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Modern dark variant support */
+@custom-variant dark (&:is(.dark *));
+
+/* Theme Variables */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Travel Theme: "Eco-Adventure"
+   Focus: Trustworthy Teals, Exciting Oranges, Clean Slates
+*/
+
+/* Light Mode */
+:root {
+  --radius: 0.75rem; /* Slightly softer corners for a friendly travel vibe */
+
+  /* Base */
+  --background: #ffffff;         /* Pure white for clarity */
+  --foreground: #0f172a;         /* Deep Slate (almost black) for high contrast text */
+
+  /* Surfaces */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Primary: "Jungle Teal" - Sophisticated, reliable, nature-connected */
+  --primary: #0d9488;            /* Tailwind Teal-600 */
+  --primary-foreground: #ffffff;
+
+  /* Secondary: "Golden Hour" - Warmth, excitement, CTAs */
+  --secondary: #f59e0b;          /* Tailwind Amber-500 */
+  --secondary-foreground: #ffffff;
+
+  /* Muted: Soft grays for dividers/secondary text */
+  --muted: #f1f5f9;              /* Slate-100 */
+  --muted-foreground: #64748b;   /* Slate-500 */
+
+  /* Accent: Subtle blue-gray for hover states/highlights */
+  --accent: #f0f9ff;             /* Sky-50 */
+  --accent-foreground: #0e7490;  /* Cyan-700 */
+
+  /* Feedback */
+  --destructive: #ef4444;        /* Red-500 */
+  --destructive-foreground: #ffffff;
+
+  /* Form Elements */
+  --border: #e2e8f0;             /* Slate-200 */
+  --input: #f8fafc;              /* Slate-50 */
+  --ring: #0d9488;               /* Matches Primary */
+
+  /* Charts & Data Viz */
+  --chart-1: #0d9488; /* Teal */
+  --chart-2: #f59e0b; /* Amber */
+  --chart-3: #0ea5e9; /* Sky Blue */
+  --chart-4: #8b5cf6; /* Violet */
+  --chart-5: #10b981; /* Emerald */
+
+  /* Sidebar (Admin/Dashboard) */
+  --sidebar: #f8fafc;            /* Light Gray background */
+  --sidebar-foreground: #334155; /* Slate-700 */
+  --sidebar-primary: #0d9488;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e2e8f0;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #0d9488;
+}
+
+/* Dark Mode - "Night Sky" Theme */
+.dark {
+  /* Base */
+  --background: #020617;         /* Very dark slate (not pitch black) for depth */
+  --foreground: #f8fafc;         /* Off-white text */
+
+  /* Surfaces */
+  --card: #0f172a;               /* Slate-900 */
+  --card-foreground: #f8fafc;
+
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+
+  /* Primary: Brighter Teal to pop against dark mode */
+  --primary: #14b8a6;            /* Teal-500 */
+  --primary-foreground: #020617;
+
+  /* Secondary: Muted Amber */
+  --secondary: #fbbf24;          /* Amber-400 */
+  --secondary-foreground: #020617;
+
+  /* Muted */
+  --muted: #1e293b;              /* Slate-800 */
+  --muted-foreground: #94a3b8;   /* Slate-400 */
+
+  /* Accent */
+  --accent: #1e293b;             /* Slate-800 */
+  --accent-foreground: #22d3ee;  /* Cyan-400 */
+
+  /* Feedback */
+  --destructive: #f87171;        /* Red-400 */
+  --destructive-foreground: #ffffff;
+
+  /* Form Elements */
+  --border: #1e293b;             /* Slate-800 */
+  --input: #1e293b;
+  --ring: #14b8a6;
+
+  /* Charts */
+  --chart-1: #2dd4bf;
+  --chart-2: #fbbf24;
+  --chart-3: #38bdf8;
+  --chart-4: #a78bfa;
+  --chart-5: #34d399;
+
+  /* Sidebar */
+  --sidebar: #0f172a;
+  --sidebar-foreground: #cbd5e1;
+  --sidebar-primary: #14b8a6;
+  --sidebar-primary-foreground: #020617;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #14b8a6;
+}
+
+/* Base Layer */
 @layer base {
   * {
     @apply border-border outline-ring/50;

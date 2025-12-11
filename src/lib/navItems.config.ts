@@ -64,17 +64,17 @@ export const guideNavItems: NavSection[] = [
     },
 ];
 export const touristNavItems: NavSection[] = [
-       {
-        title: "Trips",
-        items: [
-            {
-                title: "Book Trip",
-                href: "/dashboard/book-a-trip",
-                icon: "Book", 
-                roles: ["TOURIST"],
-            },
-        ],
-    },
+    //    {
+    //     title: "Trips",
+    //     items: [
+    //         {
+    //             title: "Book Trip",
+    //             href: "/dashboard/book-a-trip",
+    //             icon: "Book", 
+    //             roles: ["TOURIST"],
+    //         },
+    //     ],
+    // },
     {
         title: "My Trips",
         items: [

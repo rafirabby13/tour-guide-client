@@ -2,6 +2,7 @@
 import React from 'react';
 import { Search, MapPin, Star, Users, Globe, Shield, ArrowRight, Check, Quote } from 'lucide-react';
 import PopularTrips from './PopularTrips';
+import HowItWorks from './HowItWorks';
 
 const LandingPagePreview = () => {
   return (
@@ -9,86 +10,9 @@ const LandingPagePreview = () => {
 
 
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Discover Your City Through
-              <span className="text-primary"> Local Eyes</span>
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Connect with passionate local guides for authentic, personalized experiences. Skip the tourist traps and explore like a local.
-            </p>
+    
 
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto mt-8">
-              <div className="flex flex-col md:flex-row gap-3 p-2 bg-card border rounded-lg shadow-lg">
-                <div className="flex-1 flex items-center gap-2 px-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Where are you going?"
-                    className="w-full bg-transparent border-none outline-none text-sm"
-                  />
-                </div>
-                <button className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                  <Search className="h-4 w-4" />
-                  Search
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground pt-4">
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <span>1000+ Guides</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>50+ Cities</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4" />
-                <span>4.9 Rating</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Experience authentic local culture in three simple steps
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              { step: "01", title: "Find Your Guide", desc: "Browse local experts by location, interest, or expertise", icon: Search },
-              { step: "02", title: "Book Experience", desc: "Choose your date and customize your perfect tour", icon: MapPin },
-              { step: "03", title: "Explore & Enjoy", desc: "Meet your guide and discover hidden gems", icon: Star }
-            ].map((item, i) => (
-              <div key={i} className="relative">
-                <div className="bg-card border rounded-lg p-6 text-center space-y-4 hover:shadow-lg transition-shadow">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                    <item.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="text-4xl font-bold text-primary/20">{item.step}</div>
-                  <h3 className="text-xl font-semibold">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.desc}</p>
-                </div>
-                {i < 2 && (
-                  <ArrowRight className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-primary h-8 w-8" />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HowItWorks/>
 
       {/* Popular Destinations */}
       <PopularTrips />
