@@ -27,12 +27,14 @@ interface ReviewDialogProps {
   isOpen: boolean;
   onClose: () => void;
   bookingId: string;
+  tourId: string;
 }
 
 export default function ReviewDialog({
   isOpen,
   onClose,
   bookingId,
+  tourId
 }: ReviewDialogProps) {
   
   // Hook for Server Action
@@ -49,6 +51,7 @@ export default function ReviewDialog({
   // Intercept submit to inject rating & bookingId
   const handleSubmit = (formData: FormData) => {
     formData.append("bookingId", bookingId);
+    formData.append("tourId", tourId);
     formData.append("rating", rating.toString());
     formAction(formData);
   };

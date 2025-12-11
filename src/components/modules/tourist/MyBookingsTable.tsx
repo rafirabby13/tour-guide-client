@@ -11,6 +11,7 @@ import { IMeta } from "@/types/meta.interface";
 import ReviewDialog from "./ReviewDialog";
 import { IReview } from "@/types/review.interface";
 import { ITour } from "@/types/tour.interface";
+import { initiatePayment } from "@/services/payment/initiatePayment";
 
 
 interface MyBookingsTableProps {
@@ -35,9 +36,15 @@ const MyBookingsTable = ({ bookings, meta }: MyBookingsTableProps) => {
         setIsReviewOpen(true);
     };
 
-    const handlePayNow = (paymentUrl: string) => {
+    const handlePayNow = async(item: any) => {
         // If paymentUrl is stored in booking or generated on fly
-        window.location.href = paymentUrl;
+        console.log(item)
+        const payment = await initiatePayment(item?.id)
+        if (payment && payment.success) {
+            window.location.href = payment.paymentUrl;
+            
+        }
+        console.log(payment.paymentUrl)
     };
 
    
@@ -90,7 +97,7 @@ const MyBookingsTable = ({ bookings, meta }: MyBookingsTableProps) => {
                 <div className="flex items-center gap-2">
                     {/* Pay Button for Pending */}
                     {row.status === "PENDING" && row.paymentStatus !== "SUCCESS" && (
-                        <Button size="sm" onClick={() => handlePayNow(`/payment/pay?id=${row.id}`)}>
+                        <Button size="sm" onClick={() => handlePayNow(row)}>
                             Pay Now
                         </Button>
                     )}
@@ -144,7 +151,7 @@ const MyBookingsTable = ({ bookings, meta }: MyBookingsTableProps) => {
                         setSelectedBooking(null);
                     }}
                     bookingId={selectedBooking.id}
-                //   tourId={selectedBooking.tourId}
+                  tourId={selectedBooking.tourId}
                 />
             )}
         </div>

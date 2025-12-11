@@ -10,6 +10,7 @@ export const submitReview = async (_currentState: any, formData: FormData): Prom
     // 1. Extract Data
     const rawData = {
       bookingId: formData.get("bookingId"),
+      tourId: formData.get("tourId"),
       rating: Number(formData.get("rating")), // Convert string to number
       comment: formData.get("comment") || undefined, // Send undefined if empty string
     };
@@ -18,6 +19,8 @@ export const submitReview = async (_currentState: any, formData: FormData): Prom
     const validatedFields = createReviewSchema.safeParse({ body: rawData });
 
     if (!validatedFields.success) {
+
+      console.log("//////////////sdfsdgdg")
       return {
         success: false,
         error: validatedFields.error.issues[0].message || "Invalid input",
@@ -26,7 +29,7 @@ export const submitReview = async (_currentState: any, formData: FormData): Prom
 
     // 3. Send to Backend
     // Adjust endpoint URL as needed
-    const res = await serverFetch.post("/review/create", {
+    const res = await serverFetch.post("/review/create-review", {
       body: JSON.stringify(validatedFields.data.body), // Send just the body object
       headers: {
         "Content-Type": "application/json",
