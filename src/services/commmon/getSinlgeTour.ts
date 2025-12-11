@@ -3,10 +3,10 @@
 
 import { serverFetch } from "@/lib/server-fetch";
 
-export const getMyProfile = async () => {
+export const getSingleTour = async (id: string) => {
     try {
       
-        const res = await serverFetch.get("/user/my-profile/me");
+        const res = await serverFetch.get(`/tour/${id}`);
 
         const result = await res.json();
 
@@ -14,10 +14,10 @@ export const getMyProfile = async () => {
         return result;
 
     } catch (error: any) {
-        console.error("Create Guide Error:", error);
+        console.error("Get tourError:", error);
         return {
             success: false,
-            error: error.message || "Failed to get My Profile. Please try again."
+            error: error.message || "Failed to get tour. Please try again."
         };
     }
 }

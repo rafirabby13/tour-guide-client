@@ -26,19 +26,20 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Support", href: "/support" },
 ];
 
-export default function Navbar({profile}: {profile:any}) {
+export default function Navbar({ profile }: { profile: any }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  // console.log(profile)
   const role = profile?.role;
   const lowerCaseRole = role?.toLowerCase()
   const userData = profile[lowerCaseRole]
-  // console.log(userData.lowerCaseRole)
-const pathname = usePathname();
+  console.log(userData)
+  const pathname = usePathname();
   // console.log(profile)
   const user = {
     name: userData ? userData?.name : "user",
     email: "alex@example.com",
-    avatarUrl: "https://ui-avatars.com/api/?name=AN&background=0D8ABC&color=fff",
+    avatarUrl: userData ? userData?.profilePhoto : "https://ui-avatars.com/api/?name=AN&background=0D8ABC&color=fff",
   };
 
   return (
@@ -69,9 +70,8 @@ const pathname = usePathname();
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
-              }`}
+              className={`text-sm font-medium transition-colors ${pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
+                }`}
             >
               {item.label}
             </Link>
@@ -123,7 +123,7 @@ const pathname = usePathname();
                       <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-slate-50">
                         Profile
                       </Link>
-                      <LogoutButton/>
+                      <LogoutButton />
                       {/* <button
                         onClick={() => {
                           // sign out logic
@@ -187,9 +187,8 @@ const pathname = usePathname();
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${pathname === item.href ? "text-primary" : "text-slate-700 hover:text-primary"
+                    }`}
                 >
                   {item.label}
                 </Link>

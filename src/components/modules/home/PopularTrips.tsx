@@ -10,6 +10,7 @@ const PopularTrips = async () => {
   const response = await getAllTours();
   // Safe check: handle if response is the array or response.data is the array
   const tours = Array.isArray(response) ? response : response?.data || [];
+  console.log(tours)
 
   return (
     <section className="py-24 bg-gray-50/50">
@@ -92,7 +93,10 @@ const PopularTrips = async () => {
                   {/* Assuming you might calculate 'Starting from' price later */}
                   <div className="text-right">
                     <p className="text-xs text-gray-400">From</p>
-                    <p className="text-lg font-bold text-primary">$XX</p>
+                    {
+                        tour?.tourPricings?.map((price: any)=><p key={price.id} className="text-lg font-bold text-primary">${price.pricePerHour}</p>)
+                    }
+                    
                   </div>
                 </div>
               </div>

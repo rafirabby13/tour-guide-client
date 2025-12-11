@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useActionState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
@@ -16,15 +16,19 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { bookTour } from "@/services/tourist/bookTour";
+import { minToTime } from "@/helper/minToTime";
+import { getCurrentTimeStr } from "@/helper/getCurrentTimeStr";
 
 
 interface TourBookingFormProps {
   tourId: string;
   pricePerHour: number;
-  maxGuests?: number; // Optional limit from tour details
+  maxGuests: number; // Optional limit from tour details
+  availabilities: any[],
+  user?: any
 }
 
-export default function TourBookingForm() {
+export default function TourBookingForm({ tourId, pricePerHour, maxGuests, availabilities, user }: TourBookingFormProps) {
   const router = useRouter();
 
   // Hook for Server Action
@@ -32,9 +36,47 @@ export default function TourBookingForm() {
 
   // --- Local State for Live Calculations ---
   // We keep track of these values to show the user the Total Price immediately
+  const [date, setDate] = useState("");
   const [duration, setDuration] = useState<number>(1);
   const [numGuests, setNumGuests] = useState<number>(1);
   const [startTime, setStartTime] = useState<string>("09:00");
+  const handleSubmitClick = (e: any) => {
+    if (!user) {
+      e.preventDefault();           // Stop form submission
+      router.push("/login");        // Redirect to login
+      return;
+    }
+  }
+  const timeConstraints = useMemo(() => {
+    if (!date) return { disabled: true, min: "", max: "", error: "Please select a date first" };
+
+    const selectedDate = new Date(date);
+    const dayOfWeek = selectedDate.getDay(); // 0 (Sun) - 6 (Sat)
+    console.log(availabilities, dayOfWeek)
+
+    // Find if guide works on this day
+    const schedule = availabilities.find((slot: any) => slot.dayOfWeek === dayOfWeek);
+
+    if (!schedule || !schedule.isActive) {
+      return { disabled: true, error: "Tour not available on this day of the week." };
+    }
+
+    // Base Min/Max from schedule
+    let min = minToTime(schedule.startTimeMinutes);
+    const max = minToTime(schedule.endTimeMinutes);
+
+    console.log(min)
+
+    // If TODAY, ensure min time is not in the past
+    const todayStr = new Date().toISOString().split("T")[0];
+    if (date === todayStr) {
+      const nowStr = getCurrentTimeStr();
+      if (nowStr > max) return { disabled: true, error: "Too late to book for today." };
+      if (nowStr > min) min = nowStr; // Bump min time to now
+    }
+
+    return { disabled: false, min, max, error: null };
+  }, [date, availabilities]);
 
   // Helper: Calculate End Time for display
   const calculateEndTime = (start: string, hrs: number) => {
@@ -77,7 +119,7 @@ export default function TourBookingForm() {
         timer: 2000,
         showConfirmButton: false,
       });
-      
+
       // Redirect to Payment URL provided by backend
       if (state.paymentUrl) {
         window.location.href = state.paymentUrl;
@@ -104,7 +146,7 @@ export default function TourBookingForm() {
         <input type="hidden" name="tourId" value={tourId} />
 
         <FieldGroup className="space-y-4">
-          
+
           {/* --- Date --- */}
           <Field>
             <FieldLabel className="flex items-center gap-2">
@@ -114,12 +156,19 @@ export default function TourBookingForm() {
               type="date"
               name="date"
               min={new Date().toISOString().split("T")[0]} // Disable past dates
+              onChange={(e) => {
+                setDate(e.target.value);
+                setStartTime(""); // Reset time on date change
+              }}
               required
             />
-            {getFieldError("date") && (
+            {/* {getFieldError("date") && (
               <FieldDescription className="text-red-600">
                 {getFieldError("date")}
               </FieldDescription>
+            )} */}
+            {timeConstraints.error && (
+              <p className="text-xs text-red-500 mt-1 font-medium">{timeConstraints.error}</p>
             )}
           </Field>
 
@@ -134,12 +183,21 @@ export default function TourBookingForm() {
                 name="startTime"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
+                min={timeConstraints.min}
+                max={timeConstraints.max}
+                disabled={timeConstraints.disabled}
                 required
+                className={timeConstraints.error ? "bg-gray-100 cursor-not-allowed" : ""}
               />
-              {getFieldError("startTime") && (
+              {/* {getFieldError("startTime") && (
                 <FieldDescription className="text-red-600">
                   {getFieldError("startTime")}
                 </FieldDescription>
+              )} */}
+              {!timeConstraints.disabled && date && timeConstraints.error && (
+                <p className="text-[10px] text-red-500 mt-1">
+                  Valid: {timeConstraints.min} - {timeConstraints.max}
+                </p>
               )}
             </Field>
 
@@ -179,7 +237,7 @@ export default function TourBookingForm() {
               onChange={(e) => setNumGuests(Number(e.target.value))}
               required
             />
-             <p className="text-xs text-gray-400 text-right mt-1">Max capacity: {maxGuests}</p>
+            <p className="text-xs text-gray-400 text-right mt-1">Max capacity: {maxGuests}</p>
             {getFieldError("numGuests") && (
               <FieldDescription className="text-red-600">
                 {getFieldError("numGuests")}
@@ -203,12 +261,13 @@ export default function TourBookingForm() {
 
           {/* --- Submit Button --- */}
           <div className="mt-6">
-            <Button type="submit" disabled={isPending} className="w-full h-12 text-lg">
+            <Button type="submit" disabled={isPending || timeConstraints.disabled} onClick={handleSubmitClick}
+              className="w-full h-12 text-lg">
               {isPending ? "Processing..." : "Confirm Booking"}
             </Button>
             {/* General Error Message (e.g. Server Error) */}
             {state?.error && typeof state.error === 'string' && (
-                <p className="text-red-600 text-sm text-center mt-2">{state.error}</p>
+              <p className="text-red-600 text-sm text-center mt-2">{state.error}</p>
             )}
           </div>
 

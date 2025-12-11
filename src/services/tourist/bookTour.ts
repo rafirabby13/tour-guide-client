@@ -16,12 +16,15 @@ export const bookTour = async (_currentState: any, formData: FormData): Promise<
       numGuests: Number(formData.get("numGuests")),
     };
 
+    console.log("...........",{rawData})
+
     // 2. Validate with your Schema
     // Your schema has { body: ... }, so we validate against that structure
     const validatedFields = createBookingZodSchema.safeParse({ body: rawData });
+    console.log({rawData})
 
     if (!validatedFields.success) {
-      console.log("Validation failed:", validatedFields.error.issues);
+      console.log("Validation failed:...........sdfsdfsd...........sdfsd", validatedFields.error.issues);
       return {
         success: false,
         errors: validatedFields.error.issues.map((issue) => ({
@@ -34,9 +37,8 @@ export const bookTour = async (_currentState: any, formData: FormData): Promise<
     // 3. Prepare Payload
     const payload = validatedFields.data.body;
 
-    // 4. Send to Backend
-    // Using your existing createBooking payload structure
-    const res = await serverFetch.post("/booking/create", {
+    
+    const res = await serverFetch.post("/booking/create-booking", {
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +54,7 @@ export const bookTour = async (_currentState: any, formData: FormData): Promise<
        }
     }
 
-    // Return success + payment URL (if your backend returns it)
+   
     return {
         success: true,
         paymentUrl: result.data?.paymentUrl 
