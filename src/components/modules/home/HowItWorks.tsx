@@ -46,6 +46,7 @@
 
 // export default HowItWorks;
 
+import SectionHeader from "@/components/shared/home/SectionHeader";
 import { Map, UserCheck, CalendarCheck, ArrowRight } from "lucide-react";
 
 const STEPS = [
@@ -82,21 +83,9 @@ const HowItWorks = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
-            Your Journey Starts <span className="text-primary relative inline-block">
-              Here
-              {/* Underline decoration */}
-              <svg className="absolute w-full h-3 -bottom-1 left-0 text-secondary opacity-60" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
-              </svg>
-            </span>
-          </h2>
-          <p className="text-lg text-slate-600">
-            Three simple steps to unlock authentic experiences with local experts.
-          </p>
-        </div>
+    
+        
+        <SectionHeader title="Your Journey Starts" align="center" highlight="Here" subtitle=" Three simple steps to unlock authentic experiences with local experts."/>
 
         {/* Steps Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12">
