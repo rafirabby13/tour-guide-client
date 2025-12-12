@@ -1,11 +1,8 @@
-
-import TourBookingForm from '@/components/modules/tourist/TourBookingForm'
-import React from 'react'
-
+export const dynamic = "force-dynamic";
 const BookATripPage = () => {
   return (
     <div>
-      {/* <TourBookingForm/> */}
+      BookATripPage
     </div>
   )
 }

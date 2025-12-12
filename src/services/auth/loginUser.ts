@@ -6,6 +6,7 @@ import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/li
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
 import { setCookie } from "./tokenHandlers";
+import { serverFetch } from "@/lib/server-fetch";
 
 
 export const loginUser = async (_currentState: any, formData: any): Promise<any> => {
@@ -32,8 +33,8 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             }
         }
 
-        const res = await fetch("http://localhost:5000/api/v1/auth/login", {
-            method: "POST",
+        const res = await serverFetch.post("/auth/login", {
+  
             body: JSON.stringify(loginData),
             headers: {
                 "Content-Type": "application/json",

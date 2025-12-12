@@ -1,35 +1,35 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use server"
 
-import { UserInfo } from "@/types/user.interface";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { getCookie } from "./tokenHandlers";
+// "use server"
 
-export const getUserInfo = async (): Promise<UserInfo | null> => {
+// import { UserInfo } from "@/types/user.interface";
+// import jwt, { JwtPayload } from "jsonwebtoken";
+// import { getCookie } from "./tokenHandlers";
 
-    try {
-        const accessToken = await getCookie("accessToken");
+// export const getUserInfo = async (): Promise<UserInfo | null> => {
 
-        if (!accessToken) {
-            return null;
-        }
+//     try {
+//         const accessToken = await getCookie("accessToken");
 
-        const verifiedToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as JwtPayload;
+//         if (!accessToken) {
+//             return null;
+//         }
 
-        if (!verifiedToken) {
-            return null;
-        }
+//         const verifiedToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as JwtPayload;
 
-        const userInfo: UserInfo = {
-            name: verifiedToken.name || "Unknown User",
-            email: verifiedToken.email,
-            role: verifiedToken.role,
-        };
+//         if (!verifiedToken) {
+//             return null;
+//         }
 
-        return userInfo;
-    } catch (error: any) {
-        console.log(error);
-        return null;
-    }
+//         const userInfo: UserInfo = {
+//             name: verifiedToken.name || "Unknown User",
+//             email: verifiedToken.email,
+//             role: verifiedToken.role,
+//         };
 
-}
+//         return userInfo;
+//     } catch (error: any) {
+//         console.log(error);
+//         return null;
+//     }
+
+// }

@@ -3,7 +3,6 @@
 
 import { createTourFormSchema } from "@/components/modules/guide/tour.schema";
 import { serverFetch } from "@/lib/server-fetch";
-import { revalidatePath } from "next/cache";
 import { getMyProfile } from "../commmon/myProfile";
 
 export const createTour = async (_currentState: any, formData: FormData): Promise<any> => {

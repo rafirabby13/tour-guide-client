@@ -11,7 +11,7 @@ const AllToursPage = async ({ searchParams }: SearchParamsProps) => {
     const query = await searchParams;
     
     // 2. Fetch tours with the query (page, limit, etc.)
-    const toursResponse = await getAllTours(query);
+    const toursResponse = await getAllTours();
 
     return (
         <div>

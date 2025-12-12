@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+export const dynamic = "force-dynamic"; // <--- ADD THIS
 import React, { Suspense } from 'react';
 import { getAllTours } from '@/services/admin/tourManagement';
 import ToursHeader from '@/components/modules/tours/ToursHeader';
@@ -37,7 +37,9 @@ const ToursPage = async ({ searchParams }: ToursPageProps) => {
           
           {/* 2. Sidebar Filters (Desktop) */}
           <aside className="w-full lg:w-1/4 shrink-0 hidden lg:block space-y-8">
-             <ToursFilter />
+            <Suspense fallback={<div>Loading filters...</div>}>
+               <ToursFilter />
+            </Suspense>
           </aside>
 
           {/* 3. Main Content Area */}
@@ -58,7 +60,10 @@ const ToursPage = async ({ searchParams }: ToursPageProps) => {
 
             {/* 4. Pagination */}
             <div className="mt-12">
+               <Suspense fallback={<p>Loading...</p>}>
+               
                <TablePagination  limit={meta.limit} page={meta.page} total={meta.total} />
+            </Suspense>
             </div>
 
           </main>

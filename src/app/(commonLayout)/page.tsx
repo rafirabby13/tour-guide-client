@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"; // <--- ADD THIS
 import Categories from "@/components/modules/home/Categories";
 import HeroSection from "@/components/modules/home/HeroSection";
 import HowItWorks from "@/components/modules/home/HowItWorks";

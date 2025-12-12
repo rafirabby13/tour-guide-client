@@ -138,7 +138,7 @@ export default function Navbar({ profile }: { profile: any }) {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:bg-transparent">
                     <Avatar className="h-9 w-9 border border-gray-200 transition-all hover:ring-2 hover:ring-primary/20">
-                      <AvatarImage src={user.avatarUrl} alt={user.name} className="object-cover" />
+                      <AvatarImage src={user.avatarUrl} alt={user?.name || "Guest"} className="object-cover" />
                       <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                         {user.initials}
                       </AvatarFallback>
@@ -149,7 +149,7 @@ export default function Navbar({ profile }: { profile: any }) {
                 <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none truncate">{user.name}</p>
+                      <p className="text-sm font-medium leading-none truncate">{user?.name || "Guest"}</p>
                       <p className="text-xs leading-none text-muted-foreground truncate">
                         {user.email}
                       </p>
@@ -256,7 +256,7 @@ export default function Navbar({ profile }: { profile: any }) {
                       <AvatarFallback className="bg-white text-primary font-bold">{user.initials}</AvatarFallback>
                     </Avatar>
                     <div className="overflow-hidden">
-                      <p className="font-semibold text-sm text-slate-900 truncate">{user.name}</p>
+                      <p className="font-semibold text-sm text-slate-900 truncate">{user?.name || "Guest"}</p>
                       <p className="text-xs text-slate-500 truncate">{user.email}</p>
                     </div>
                   </div>

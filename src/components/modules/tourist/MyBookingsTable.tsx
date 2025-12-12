@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge"; // Assuming you have shadcn Badge
 import { format } from "date-fns"; // Recommended for formatting dates, or use JS Date
 import { IMeta } from "@/types/meta.interface";
 import ReviewDialog from "./ReviewDialog";
-import { IReview } from "@/types/review.interface";
 import { ITour } from "@/types/tour.interface";
 import { initiatePayment } from "@/services/payment/initiatePayment";
 

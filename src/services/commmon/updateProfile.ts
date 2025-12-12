@@ -2,7 +2,6 @@
 "use server"
 
 import { serverFetch } from "@/lib/server-fetch";
-import { getCookie } from "../auth/tokenHandlers";
 import { getMyProfile } from "./myProfile";
 import { adminProfileSchema, guideProfileSchema, touristProfileSchema } from "./updateProfileValidationSchema";
 
