@@ -6,57 +6,7 @@ import SectionHeader from '@/components/shared/home/SectionHeader';
 import { Button } from '@/components/ui/button';
 import { getPopularDestinations } from '@/services/commmon/getPopularDestination';
 
-// Mock Data (Replace with API call to get aggregated city data later)
-const CITIES = [
-  {
-    id: 1,
-    name: "Kyoto",
-    country: "Japan",
-    image: "https://images.pexels.com/photos/402028/pexels-photo-402028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 42,
-    slug: "Kyoto"
-  },
-  {
-    id: 2,
-    name: "Paris",
-    country: "France",
-    image: "https://images.pexels.com/photos/1850619/pexels-photo-1850619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 65,
-    slug: "Paris"
-  },
-  {
-    id: 3,
-    name: "New York",
-    country: "USA",
-    image: "https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 80,
-    slug: "New York"
-  },
-  {
-    id: 4,
-    name: "Rome",
-    country: "Italy",
-    image: "https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 30,
-    slug: "Rome"
-  },
-  {
-    id: 5,
-    name: "Barcelona",
-    country: "Spain",
-    image: "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 25,
-    slug: "Barcelona"
-  },
-  {
-    id: 6,
-    name: "Bangkok",
-    country: "Thailand",
-    image: "https://images.pexels.com/photos/1682748/pexels-photo-1682748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    count: 55,
-    slug: "Bangkok"
-  },
-];
+
 
 const CitiesPage = async () => {
   const { data: popularDestinations } = await getPopularDestinations();
@@ -91,12 +41,12 @@ const CitiesPage = async () => {
           title="Popular" 
           highlight="Destinations" 
           subtitle="The most visited cities by our community this month."
-          align="left"
+          align="center"
         />
 
         {/* Cities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {citiesToDisplay?.map((city) => (
+          {citiesToDisplay?.map((city:{name:string, image: string, id:string,country: string,count: number, slug: string}) => (
             <Link 
               key={city.id} 
               // ✅ Connects to your existing Search functionality

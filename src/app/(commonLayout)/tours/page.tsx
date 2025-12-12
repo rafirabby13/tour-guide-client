@@ -6,6 +6,7 @@ import ToursHeader from '@/components/modules/tours/ToursHeader';
 import ToursFilter from '@/components/modules/tours/ToursFilter';
 import ToursGrid from '@/components/modules/tours/ToursGrid';
 import TablePagination from '@/components/shared/tables/TablePagination';
+import SectionHeader from '@/components/shared/home/SectionHeader';
 
 interface ToursPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -39,10 +40,14 @@ const ToursPage = async (props: ToursPageProps) => {
   const meta = response?.meta || { page: 1, limit: 10, total: 0 };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 pt-5">
 
       {/* 1. Header & Breadcrumbs */}
-      <ToursHeader totalTours={publishedTours.length} />
+      {/* <ToursHeader totalTours={publishedTours.length} /> */}
+
+      <SectionHeader title='Explore All ' highlight='Experiences' align='center' subtitle= {publishedTours?.length > 0 
+            ? `Showing ${publishedTours?.length} hand-picked tours for you` 
+            : "Find your next adventure"} />
 
       <div className="container mx-auto px-4 md:px-6 pt-8">
         <div className="flex flex-col lg:flex-row gap-8">
