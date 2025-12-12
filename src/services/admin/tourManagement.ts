@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { serverFetch } from "@/lib/server-fetch"
 
-export async function getAllTours() {
+export async function getAllTours(query: string = "") {
     try {
-
+        const url = query ? `/tour/all-tours?${query}` : `/tour/all-tours`;
         // const page = Number(query.page)
-        const response = await serverFetch.get(`/tour/all-tours`)
+        const response = await serverFetch.get(url)
         const result = await response.json()
         return result
     } catch (error) {
@@ -21,8 +21,8 @@ export async function getAllTours() {
 }
 export async function updateTourStatus(tourId: string, status: string) {
     try {
-        
-      const response = await serverFetch.patch(`/tour/update-tour-status`, {
+
+        const response = await serverFetch.patch(`/tour/update-tour-status`, {
             // 1. Define the Content-Type so the backend knows it's JSON
             headers: {
                 "Content-Type": "application/json",

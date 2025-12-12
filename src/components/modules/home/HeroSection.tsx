@@ -11,8 +11,11 @@ import Image from "next/image"
 import { MapPin, Search, Star, Users } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 export default function HeroSection() {
+  const router = useRouter();
+  const [query, setQuery] = React.useState("")
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false })
   )
@@ -22,7 +25,18 @@ export default function HeroSection() {
     { id: 2, src: "https://images.pexels.com/photos/417344/pexels-photo-417344.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "City Tours" },
     { id: 3, src: "https://images.pexels.com/photos/815880/pexels-photo-815880.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Food Adventures" },
   ]
+const handleSearch = () => {
+    if (query.trim()) {
+      // Redirect to the tours page with the search query
+      router.push(`/tours?searchTerm=${query}`);
+    }
+  };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
 
@@ -58,7 +72,7 @@ export default function HeroSection() {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-xl">
             Discover Your City Through
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 to-emerald-400">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-secondary to-emerald-400">
               Local Eyes
             </span>
           </h1>
@@ -69,21 +83,27 @@ export default function HeroSection() {
           </p>
 
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto w-full">
+         <div className="max-w-2xl mx-auto w-full">
             <div className="flex flex-col sm:flex-row gap-2 p-2 bg-white/15 backdrop-blur-md border border-white/20 rounded-xl shadow-xl">
 
               <div className="flex-1 flex items-center gap-3 px-4 bg-white rounded-lg h-12 sm:h-14">
-                <MapPin className="h-5 w-5 text-muted-foreground" />
+                <MapPin className="h-5 w-5 text-muted-foreground shrink-0" />
                 <Input
                   type="text"
-                  placeholder="Where are you going?"
+                  placeholder="Where are you going? (e.g. Kyoto, Food Tour)"
                   className="border-none shadow-none focus-visible:ring-0 text-base h-full placeholder:text-muted-foreground/70"
+                  // ✅ Bind State
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
 
               <Button
                 size="lg"
                 className="h-12 sm:h-14 px-8 text-lg font-medium shadow-lg"
+                // ✅ Bind Click
+                onClick={handleSearch}
               >
                 <Search className="h-5 w-5 mr-2" />
                 Search
