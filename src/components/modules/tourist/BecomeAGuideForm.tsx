@@ -30,7 +30,7 @@ const BecomeAGuideForm = () => {
                 description: "Redirecting to your new dashboard...",
                 icon: <CheckCircle2 className="text-emerald-500" />
             });
-            setTimeout(() => router.push("/dashboard"), 1500);
+            setTimeout(() => router.push("/"), 1500);
         }
     }, [state, router]);
 

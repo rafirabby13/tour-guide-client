@@ -138,8 +138,8 @@ export const adminNavItems: NavSection[] = [
         title: "Requests",
         items: [
             {
-                title: "Become Guide Request",
-                href: "/admin/dashboard/tour-management",
+                title: "Accept Guide Request",
+                href: "/admin/dashboard/become-guide-management",
                 icon: "MapPin",
                 roles: ["ADMIN"],
             },
