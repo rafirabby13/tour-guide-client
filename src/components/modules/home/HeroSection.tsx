@@ -8,7 +8,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 import Image from "next/image"
-import { MapPin, Search, Star, Users } from "lucide-react"
+import { MapPin, Search, Star, Users, ArrowRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -21,13 +21,13 @@ export default function HeroSection() {
   )
 
   const slides = [
-    { id: 1, src: "https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Explore Mountains" },
+    { id: 1, src: "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?_gl=1*1bximr5*_ga*MTg1Nzg1OTAuMTc2NDAxMDA3NA..*_ga_8JE65Q40S6*czE3NjU1Njc1ODckbzEwJGcxJHQxNzY1NTY3NjAwJGo0NyRsMCRoMA..", alt: "Explore Mountains" },
     { id: 2, src: "https://images.pexels.com/photos/417344/pexels-photo-417344.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "City Tours" },
     { id: 3, src: "https://images.pexels.com/photos/815880/pexels-photo-815880.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Food Adventures" },
   ]
-const handleSearch = () => {
+
+  const handleSearch = () => {
     if (query.trim()) {
-      // Redirect to the tours page with the search query
       router.push(`/tours?searchTerm=${query}`);
     }
   };
@@ -37,8 +37,10 @@ const handleSearch = () => {
       handleSearch();
     }
   };
+
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+    // CHANGED: Use min-h-screen or vh units for better mobile coverage
+    <div className="relative w-full min-h-[75vh] md:h-[550px] lg:h-[650px] flex flex-col overflow-hidden">
 
       {/* Background Carousel */}
       <Carousel
@@ -46,89 +48,99 @@ const handleSearch = () => {
         className="absolute inset-0 w-full h-full z-0"
         opts={{ loop: true }}
       >
-        <CarouselContent className="h-full">
+        <CarouselContent className="h-full ml-0"> {/* ml-0 fixes potential embla gap issues */}
           {slides.map((slide) => (
-            <CarouselItem key={slide.id} className="relative h-full">
+            <CarouselItem key={slide.id} className="relative h-full pl-0">
               <Image
                 src={slide.src}
                 alt={slide.alt}
-                width={2000}
+                width={3600}
                 height={100}
+                // layout="fill"
+                unoptimized
                 priority={slide.id === 1}
-                className="object-cover"
+                className="object-cover pointer-events-none"
               />
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-black/45" />
+              {/* Dark overlay - Increased opacity slightly for mobile readability */}
+              <div className="absolute inset-0 bg-black/50 md:bg-black/35" />
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
 
-     
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <div className="max-w-5xl space-y-8 animate-in fade-in zoom-in duration-700 slide-in-from-bottom-4">
+      
+      <div className="relative z-10 flex-grow flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-700 slide-in-from-bottom-4">
 
-          {/* Heading */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-xl">
+          {/* Heading - CHANGED: Massive size adjustments for mobile */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-xl leading-tight">
             Discover Your City Through
-            <br />
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-secondary to-emerald-400">
+            <br className="hidden md:block" />
+            <span className="block mt-2 md:mt-0 bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-emerald-400">
               Local Eyes
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">
-            Connect with passionate local guides for authentic, personalized experiences.
-            Explore like a local, not a tourist.
+          {/* Subtext - CHANGED: Visible on mobile now, just smaller */}
+          <p className="text-base sm:text-lg md:text-xl text-gray-100 max-w-xl md:max-w-2xl mx-auto drop-shadow-md leading-relaxed">
+            Connect with passionate local guides for authentic experiences. 
+            <span className="hidden sm:inline"> Explore like a local, not just a tourist.</span>
           </p>
 
           {/* Search Bar */}
-         <div className="max-w-2xl mx-auto w-full">
-            <div className="flex flex-col sm:flex-row gap-2 p-2 bg-white/15 backdrop-blur-md border border-white/20 rounded-xl shadow-xl">
+          <div className="max-w-2xl mx-auto w-full pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 p-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl shadow-2xl">
 
-              <div className="flex-1 flex items-center gap-3 px-4 bg-white rounded-lg h-12 sm:h-14">
+              {/* Input Wrapper */}
+              <div className="flex-1 flex items-center gap-3 px-4 bg-white rounded-xl h-12 sm:h-14 transition-transform focus-within:scale-[1.01]">
                 <MapPin className="h-5 w-5 text-muted-foreground shrink-0" />
                 <Input
                   type="text"
-                  placeholder="Where are you going? (e.g. Kyoto, Food Tour)"
-                  className="border-none shadow-none focus-visible:ring-0 text-base h-full placeholder:text-muted-foreground/70"
-                  // ✅ Bind State
+                  placeholder="Where to? (e.g. Tokyo)"
+                  className="border-none shadow-none focus-visible:ring-0 text-base h-full placeholder:text-muted-foreground/70 px-0 w-full"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
                 />
               </div>
 
+              {/* Button - CHANGED: Full width on mobile */}
               <Button
                 size="lg"
-                className="h-12 sm:h-14 px-8 text-lg font-medium shadow-lg"
-                // ✅ Bind Click
+                className="w-full sm:w-auto h-12 sm:h-14 px-8 text-base font-semibold shadow-lg rounded-xl bg-primary hover:bg-primary/90 transition-all active:scale-95"
                 onClick={handleSearch}
               >
-                <Search className="h-5 w-5 mr-2" />
+                <Search className="h-4 w-4 mr-2" />
                 Search
               </Button>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-white/90 pt-4">
-            <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
-              <Users className="h-4 w-4 text-accent" />
-              <span>1000+ Guides</span>
+          {/* Stats - CHANGED: Visible on mobile, flex-wrap for small screens */}
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 text-xs sm:text-sm font-medium text-white/90 pt-6">
+            
+            <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-sm border border-white/10">
+              <Users className="h-3 w-3 md:h-4 md:w-4 text-emerald-400" />
+              <span>1k+ Guides</span>
             </div>
-            <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
-              <MapPin className="h-4 w-4 text-accent" />
+            
+            <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-sm border border-white/10">
+              <MapPin className="h-3 w-3 md:h-4 md:w-4 text-emerald-400" />
               <span>50+ Cities</span>
             </div>
-            <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
-              <Star className="h-4 w-4 text-accent fill-accent" />
-              <span>4.9 Rating</span>
+            
+            <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-sm border border-white/10">
+              <Star className="h-3 w-3 md:h-4 md:w-4 text-yellow-400 fill-yellow-400" />
+              <span>4.9/5 Rating</span>
             </div>
+
           </div>
 
         </div>
       </div>
+
+      {/* Decorative Gradient at bottom for smooth transition to next section */}
+      {/* <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" /> */}
 
     </div>
   )

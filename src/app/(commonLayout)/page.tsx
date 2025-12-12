@@ -13,6 +13,7 @@ export default function Home() {
     <div>
       <div className="min-h-screen bg-background">
       {/* <HeroSection /> */}
+      {/* <div className="h-24 md:h-0"></div> */}
       <HeroSection/>
       <HowItWorks />
       <PopularTrips />
