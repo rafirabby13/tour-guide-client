@@ -7,7 +7,7 @@ const TourListingPage = async () => {
     // console.log(tours)
     return (
         <div>
-            <MyListingToursTable tours={tours.data} meta={tours.meta}/>
+            <MyListingToursTable tours={tours?.data} meta={tours?.meta}/>
         </div>
     )
 }

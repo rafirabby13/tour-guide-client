@@ -15,22 +15,28 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, UploadCloud, X } from "lucide-react";
 import { createTour } from "@/services/guide/createTour";
+import { validatePricingOnClient } from "@/helper/validatePricingOnClient";
 
 const CreateTourForm = () => {
     const [state, formAction, isPending] = useActionState(createTour, null);
-    // console.log({ state })
-
     const [pricingRows, setPricingRows] = useState<number[]>([0]);
     const [availRows, setAvailRows] = useState<number[]>([0]);
+    const [files, setFiles] = useState<File[]>([]);
+    const [previews, setPreviews] = useState<string[]>([]);
 
     const getFieldError = (fieldName: string) => {
-        if (state?.errors) {
-            const error = state.errors.find((err: any) =>
-                err.field === fieldName || err.path?.join(".") === fieldName
-            );
-            return error ? error.message : null;
-        }
-        return null;
+        if (!state?.errors) return null;
+
+        const zodPath = fieldName.replace(/\[/g, ".").replace(/\]/g, "");
+
+        const error = state.errors.find((err: any) =>
+            // Check for exact match (e.g. "title")
+            err.field === fieldName ||
+            // Check for Zod path match (e.g. "tourPricings.0.minGuests")
+            err.field === zodPath
+        );
+
+        return error ? error.message : null;
     };
 
     // --- Handlers for Dynamic Sections ---
@@ -42,11 +48,10 @@ const CreateTourForm = () => {
     // Availability
     const addAvailRow = () => setAvailRows((prev) => [...prev, prev.length > 0 ? prev[prev.length - 1] + 1 : 0]);
     const removeAvailRow = (id: number) => setAvailRows((prev) => prev.filter((rowId) => rowId !== id));
-    const [files, setFiles] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
+
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // e.preventDefault()
+        e.preventDefault()
         if (e.target.files) {
             const newFiles = Array.from(e.target.files);
 
@@ -67,40 +72,52 @@ const CreateTourForm = () => {
         setPreviews((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleFormSubmit = (formData: FormData) => {
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const pricingError = validatePricingOnClient(formData);
+        if (pricingError) {
+            // Stop submission and show alert
+            Swal.fire({
+                title: "Validation Error",
+                text: pricingError,
+                icon: "warning"
+            });
+            return; // 🛑 PREVENT SERVER ACTION
+        }
         // Manually append all files from state to 'images' key
         files.forEach((file) => {
             formData.append("images", file);
         });
-        
+
         // Call the original Server Action
         formAction(formData);
     };
 
     // --- Feedback Logic ---
     useEffect(() => {
-    if (state?.error) {
-      Swal.fire({
-        title: `Error Occurred!`,
-        text: state.error,
-        icon: "error",
-        draggable: true
-      });
-    }
-    if (state?.success) {
-      Swal.fire({
-        title: "Tour Created!",
-        text: state.message,
-        icon: "success",
-        draggable: true
-      });
-      // Optional: Redirect or reset form here
-      // router.push("/tours") 
-    }
-  }, [state]);
+        if (state?.error) {
+            Swal.fire({
+                title: `Error Occurred!`,
+                text: state.error,
+                icon: "error",
+                draggable: true
+            });
+        }
+        if (state?.success) {
+            Swal.fire({
+                title: "Tour Created!",
+                text: state.message,
+                icon: "success",
+                draggable: true
+            });
+            // Optional: Redirect or reset form here
+            // router.push("/tours") 
+        }
+    }, [state]);
 
     return (
-        <form action={handleFormSubmit} className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-bold mb-6">Create New Tour</h2>
 
             <FieldGroup>
@@ -204,6 +221,11 @@ const CreateTourForm = () => {
                                     min="1"
                                     defaultValue="1"
                                 />
+                                {getFieldError(`tourPricings[${index}][minGuests]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">
+                                        {getFieldError(`tourPricings[${index}][minGuests]`)}
+                                    </span>
+                                )}
                             </Field>
 
                             <Field>
@@ -214,6 +236,11 @@ const CreateTourForm = () => {
                                     min="1"
                                     defaultValue="2"
                                 />
+                                {getFieldError(`tourPricings[${index}][maxGuests]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">
+                                        {getFieldError(`tourPricings[${index}][maxGuests]`)}
+                                    </span>
+                                )}
                             </Field>
 
                             <Field>
@@ -224,6 +251,11 @@ const CreateTourForm = () => {
                                     step="0.01"
                                     placeholder="50.00"
                                 />
+                                {getFieldError(`tourPricings[${index}][pricePerHour]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">
+                                        {getFieldError(`tourPricings[${index}][pricePerHour]`)}
+                                    </span>
+                                )}
                             </Field>
                         </div>
                     ))}
@@ -260,21 +292,33 @@ const CreateTourForm = () => {
                                         <option key={day} value={i}>{day}</option>
                                     ))}
                                 </select>
+                                {getFieldError(`tourAvailabilities[${index}][dayOfWeek]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">{getFieldError(`tourAvailabilities[${index}][dayOfWeek]`)}</span>
+                                )}
                             </Field>
 
                             <Field>
                                 <FieldLabel>Start Time</FieldLabel>
                                 <Input name={`tourAvailabilities[${index}][startTime]`} type="time" defaultValue="09:00" />
+                                {getFieldError(`tourAvailabilities[${index}][startTime]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">{getFieldError(`tourAvailabilities[${index}][startTime]`)}</span>
+                                )}
                             </Field>
 
                             <Field>
                                 <FieldLabel>End Time</FieldLabel>
                                 <Input name={`tourAvailabilities[${index}][endTime]`} type="time" defaultValue="17:00" />
+                                {getFieldError(`tourAvailabilities[${index}][endTime]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">{getFieldError(`tourAvailabilities[${index}][endTime]`)}</span>
+                                )}
                             </Field>
 
                             <Field>
                                 <FieldLabel>Capacity</FieldLabel>
                                 <Input name={`tourAvailabilities[${index}][maxBookings]`} type="number" defaultValue="10" />
+                                {getFieldError(`tourAvailabilities[${index}][maxBookings]`) && (
+                                    <span className="text-xs text-red-600 font-medium mt-1 block">{getFieldError(`tourAvailabilities[${index}][maxBookings]`)}</span>
+                                )}
                             </Field>
                         </div>
                     ))}

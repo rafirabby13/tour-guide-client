@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useActionState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
@@ -25,12 +25,18 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { updateTour } from "@/services/guide/UpdateTour";
+import { validatePricingOnClient } from "@/helper/validatePricingOnClient";
+import { validateAvailabilityOnClient } from "@/helper/validateAvailabilityOnClient";
+import { ITour, ITourAvailability } from "@/types/tour.interface";
+import { minutesToTime, timeToMinutes } from "@/helper/timeConverters";
+import { minToTime } from "@/helper/minToTime";
+import { toast } from "sonner";
 
 
 interface EditTourDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  tour: any; // Replace with ITour interface if available
+  tour: ITour; // Replace with ITour interface if available
 }
 
 export default function EditTourDialog({
@@ -40,19 +46,18 @@ export default function EditTourDialog({
 }: EditTourDialogProps) {
   const router = useRouter();
 
+  console.log({ tour })
+
   // Hook for Server Action
   const [state, formAction, isPending] = useActionState(updateTour, null);
-
-  // --- State for Dynamic Sections ---
-  // We initialize these arrays based on the length of existing data
   const [pricingRows, setPricingRows] = useState<number[]>([]);
   const [availRows, setAvailRows] = useState<number[]>([]);
-
   // --- State for Images ---
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]); // Track URLs to remove
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [newPreviews, setNewPreviews] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // --- Initialize Data when Tour changes ---
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function EditTourDialog({
       // 1. Setup Dynamic Rows indices [0, 1, 2...]
       setPricingRows(tour.tourPricings?.map((_: any, i: number) => i) || [0]);
       setAvailRows(tour.tourAvailabilities?.map((_: any, i: number) => i) || [0]);
-      
+
       // 2. Setup Images
       setExistingImages(tour.images || []);
       setDeletedImages([]);
@@ -69,10 +74,9 @@ export default function EditTourDialog({
     }
   }, [tour, isOpen]);
 
-  // --- Helper: Get Field Errors ---
   const getFieldError = (fieldName: string) => {
     if (state?.errors) {
-      const error = state.errors.find((err: any) => 
+      const error = state.errors.find((err: any) =>
         err.field === fieldName || err.path?.join(".") === fieldName
       );
       return error ? error.message : null;
@@ -92,7 +96,7 @@ export default function EditTourDialog({
     if (e.target.files) {
       const incomingFiles = Array.from(e.target.files);
       setNewFiles((prev) => [...prev, ...incomingFiles]);
-      
+
       const incomingPreviews = incomingFiles.map((file) => URL.createObjectURL(file));
       setNewPreviews((prev) => [...prev, ...incomingPreviews]);
     }
@@ -111,8 +115,9 @@ export default function EditTourDialog({
   };
 
   // --- Form Submission Interceptor ---
-  const handleFormSubmit = (formData: FormData) => {
-    // 1. Append ID
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     formData.append("id", tour.id);
 
     // 2. Append New Files
@@ -124,21 +129,31 @@ export default function EditTourDialog({
     if (deletedImages.length > 0) {
       formData.append("deletedImages", JSON.stringify(deletedImages));
     }
+    const pricingError = validatePricingOnClient(formData);
+    if (pricingError) {
+      // Swal.fire({ title: "Pricing Error", text: pricingError, icon: "warning" });
+      toast.error("Pricing Error")
+      return; // Stop
+    }
 
+    const availError = validateAvailabilityOnClient(formData);
+    if (availError) {
+      // Swal.fire({ title: "Schedule Error", text: availError, icon: "warning" });
+      toast.error("Schedule Error")
+      return; // Stop
+    }
     // 4. Submit
     formAction(formData);
+      setLoading(true)
   };
 
   // --- Effect: Handle Success/Error ---
   useEffect(() => {
     if (state?.error) {
-      Swal.fire({
-        title: "Error Occurred",
-        text: typeof state.error === 'string' ? state.error : "Update failed",
-        icon: "error",
-      });
+      toast.error(state?.error)
     }
     if (state?.success) {
+      setLoading(false)
       Swal.fire({
         title: "Success",
         text: "Tour updated successfully",
@@ -158,9 +173,9 @@ export default function EditTourDialog({
           <DialogTitle>Edit Tour</DialogTitle>
         </DialogHeader>
 
-        <form action={handleFormSubmit} className="space-y-6">
+        <form onSubmit={handleFormSubmit} className="space-y-6">
           <FieldGroup className="space-y-4">
-            
+
             {/* --- Hidden Guide ID --- */}
             <input type="hidden" name="guideId" defaultValue={tour?.guideId} />
 
@@ -201,7 +216,7 @@ export default function EditTourDialog({
             {/* --- Image Section --- */}
             <Field>
               <FieldLabel>Gallery Images</FieldLabel>
-              
+
               {/* 1. Existing Images */}
               {existingImages.length > 0 && (
                 <div className="mb-4">
@@ -209,7 +224,7 @@ export default function EditTourDialog({
                   <div className="flex gap-4 flex-wrap">
                     {existingImages.map((src, index) => (
                       <div key={index} className="relative group w-24 h-24 rounded-md overflow-hidden border">
-                         {/* Using standard img tag for external URLs if domain not configured in Next.js, otherwise use Image */}
+                        {/* Using standard img tag for external URLs if domain not configured in Next.js, otherwise use Image */}
                         <img src={src} alt="existing" className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -307,52 +322,52 @@ export default function EditTourDialog({
               </div>
 
               {availRows.map((rowId, index) => {
-                 const data = tour?.tourAvailabilities?.[index] || {};
-                 return (
-                    <div key={rowId} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 p-4 border rounded-md bg-gray-50 relative">
-                      {availRows.length > 1 && (
-                        <button type="button" onClick={() => removeAvailRow(rowId)} className="absolute top-2 right-2 text-red-500">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
+                const data: ITourAvailability = tour?.tourAvailabilities?.[index] || {};
+                return (
+                  <div key={rowId} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 p-4 border rounded-md bg-gray-50 relative">
+                    {availRows.length > 1 && (
+                      <button type="button" onClick={() => removeAvailRow(rowId)} className="absolute top-2 right-2 text-red-500">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
 
-                      <Field>
-                        <FieldLabel>Day</FieldLabel>
-                        <select
-                          name={`tourAvailabilities[${index}][dayOfWeek]`}
-                          defaultValue={data.dayOfWeek !== undefined ? data.dayOfWeek : 0}
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        >
-                          {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day, i) => (
-                            <option key={day} value={i}>{day}</option>
-                          ))}
-                        </select>
-                      </Field>
-                      <Field>
-                        <FieldLabel>Start</FieldLabel>
-                        <Input name={`tourAvailabilities[${index}][startTime]`} type="time" defaultValue={data.startTime || "09:00"} />
-                      </Field>
-                      <Field>
-                        <FieldLabel>End</FieldLabel>
-                        <Input name={`tourAvailabilities[${index}][endTime]`} type="time" defaultValue={data.endTime || "17:00"} />
-                      </Field>
-                      <Field>
-                        <FieldLabel>Capacity</FieldLabel>
-                        <Input name={`tourAvailabilities[${index}][maxBookings]`} type="number" defaultValue={data.maxBookings || 10} />
-                      </Field>
-                    </div>
-                 );
+                    <Field>
+                      <FieldLabel>Day</FieldLabel>
+                      <select
+                        name={`tourAvailabilities[${index}][dayOfWeek]`}
+                        defaultValue={data.dayOfWeek !== undefined ? data.dayOfWeek : 0}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day, i) => (
+                          <option key={day} value={i}>{day}</option>
+                        ))}
+                      </select>
+                    </Field>
+                    <Field>
+                      <FieldLabel>Start</FieldLabel>
+                      <Input name={`tourAvailabilities[${index}][startTime]`} type="time" defaultValue={minutesToTime(data.startTimeMinutes) || "09:00"} />
+                    </Field>
+                    <Field>
+                      <FieldLabel>End</FieldLabel>
+                      <Input name={`tourAvailabilities[${index}][endTime]`} type="time" defaultValue={minutesToTime(data.endTimeMinutes) || "17:00"} />
+                    </Field>
+                    <Field>
+                      <FieldLabel>Capacity</FieldLabel>
+                      <Input name={`tourAvailabilities[${index}][maxBookings]`} type="number" defaultValue={data.maxBookings || 10} />
+                    </Field>
+                  </div>
+                );
               })}
-               {getFieldError("tourAvailabilities") && <FieldDescription className="text-red-600">{getFieldError("tourAvailabilities")}</FieldDescription>}
+              {getFieldError("tourAvailabilities") && <FieldDescription className="text-red-600">{getFieldError("tourAvailabilities")}</FieldDescription>}
             </div>
 
             {/* --- Actions --- */}
             <div className="flex justify-end gap-3 mt-6 pt-2 border-t">
-              <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
+              <Button type="button" variant="outline" onClick={onClose} disabled={loading}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? "Updating..." : "Save Changes"}
+              <Button type="submit" disabled={loading}>
+                {loading ? "Updating..." : "Save Changes"}
               </Button>
             </div>
 

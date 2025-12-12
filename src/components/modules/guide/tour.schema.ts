@@ -8,28 +8,22 @@ const tourPricingSchema = z.object({
   maxGuests: z.number().int().positive("Max guests must be positive"),
   pricePerHour: z.number().positive("Price must be positive"),
 })
-// .refine(
-//   (data) => data.maxGuests <= data.minGuests,
-//   { message: "Max guests must be greater than or equal to min guests" }
-// );
 
+const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+// 1. Individual Slot Schema
 const tourAvailabilitySchema = z.object({
-  dayOfWeek: z.number().int().min(0, "Day must be 0-6").max(6, "Day must be 0-6"),
-  startTime: z.string().regex(timeRegex, "Start time must be in HH:MM format"),
-  endTime: z.string().regex(timeRegex, "End time must be in HH:MM format"),
-  maxBookings: z.number().int().min(1, "Max bookings must be at least 1").default(1),
-})
-// .refine(
-//   (data) => {
-//     // Convert HH:MM to minutes for proper comparison
-//     const [startHour, startMin] = data.startTime.split(':').map(Number);
-//     const [endHour, endMin] = data.endTime.split(':').map(Number);
-//     const startMinutes = startHour * 60 + startMin;
-//     const endMinutes = endHour * 60 + endMin;
-//     return endMinutes > startMinutes;
-//   },
-//   { message: "End time must be after start time" }
-// );
+  dayOfWeek: z.coerce.number().min(0).max(6),
+  startTime: z.string().min(1, "Required"),
+  endTime: z.string().min(1, "Required"),
+  maxBookings: z.coerce.number().min(1, "Min 1 capacity"),
+}).refine((data) => {
+  // Logic: End time must be after start time
+  return data.endTime > data.startTime;
+}, {
+  message: "End time must be after start time",
+  path: ["endTime"], // This puts the red error text specifically under the "End Time" input
+});
 
 const blockedDateSchema = z.object({
   blockedDate: z.string().datetime("Must be a valid ISO date"),
@@ -39,16 +33,74 @@ const blockedDateSchema = z.object({
   reason: z.string().max(255, "Reason too long").optional(),
 });
 
-// Create Tour Schema (frontend)
+const validPricingList = z.array(tourPricingSchema)
+  .nonempty("At least one pricing tier required")
+  .superRefine((tiers, ctx) => {
+    tiers.sort((a, b) => a.minGuests - b.minGuests); // Sort for easier reading
+    
+    for (let i = 0; i < tiers.length; i++) {
+      const tier = tiers[i];
+      if (tier.minGuests > tier.maxGuests) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Min guests cannot be greater than Max guests`,
+          path: [i, "minGuests"],
+        });
+      }
+
+      for (let j = i + 1; j < tiers.length; j++) {
+        const other = tiers[j];
+        // Check Overlap
+        if (tier.minGuests <= other.maxGuests && tier.maxGuests >= other.minGuests) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Conflict! Overlaps with guests ${tier.minGuests}-${tier.maxGuests}`,
+            path: [j, "minGuests"],
+          });
+        }
+      }
+    }
+  });
+const validAvailabilityList = z.array(tourAvailabilitySchema)
+  .nonempty("At least one availability slot is required")
+  .superRefine((items, ctx) => {
+    // Define type for logic
+    type AvailabilityWithIndex = z.infer<typeof tourAvailabilitySchema> & { _index: number };
+    
+    const slotsByDay = new Map<number, AvailabilityWithIndex[]>();
+
+    // Group by Day
+    items.forEach((item, index) => {
+      if (!slotsByDay.has(item.dayOfWeek)) slotsByDay.set(item.dayOfWeek, []);
+      slotsByDay.get(item.dayOfWeek)?.push({ ...item, _index: index });
+    });
+
+    // Check Overlaps per Day
+    slotsByDay.forEach((daySlots, dayIndex) => {
+      daySlots.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+      for (let i = 0; i < daySlots.length - 1; i++) {
+        const current = daySlots[i];
+        const next = daySlots[i + 1];
+
+        if (current.endTime > next.startTime) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Time Conflict! Starts ${next.startTime} but previous slot ends ${current.endTime}.`,
+            path: [next._index, "startTime"], 
+          });
+        }
+      }
+    });
+  });
 export const createTourFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   location: z.string().min(2, "Location is required"),
   guideId: z.string().uuid("Invalid guide ID"),
   availableDates: z.array(z.string().datetime("Must be valid ISO date")).optional(),
-  // images: z.array(z.string()).default([]),
-  tourPricings: z.array(tourPricingSchema).nonempty("At least one pricing tier required"),
-  tourAvailabilities: z.array(tourAvailabilitySchema).nonempty("At least one availability slot required"),
+  tourPricings: validPricingList,
+  tourAvailabilities: validAvailabilityList,
   blockedDates: z.array(blockedDateSchema).optional(),
 });
 
@@ -58,9 +110,8 @@ export const updateTourFrontendSchema = z.object({
   description: z.string().min(10).optional(),
   location: z.string().min(2).optional(),
   availableDates: z.array(z.string().datetime()).optional(),
-  // images: z.array(z.string()).optional(),
-  tourPricings: z.array(tourPricingSchema).optional(),
-  tourAvailabilities: z.array(tourAvailabilitySchema).optional(),
+  tourPricings: validPricingList.optional(),
+  tourAvailabilities: validAvailabilityList.optional(),
   blockedDates: z.array(blockedDateSchema).optional(),
 });
 

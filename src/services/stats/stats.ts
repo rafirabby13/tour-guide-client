@@ -76,7 +76,7 @@ export async function getAdminUserStats() {
 
 export async function getMyGuideStats() {
     try {
-        const response = await serverFetch.get(`/stats/my-stats`)
+        const response = await serverFetch.get(`/stats/my/stats`)
         const result = await response.json()
         return result
     } catch (error) {
