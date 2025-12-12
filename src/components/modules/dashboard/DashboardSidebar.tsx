@@ -7,18 +7,25 @@ import { getMyProfile } from "@/services/commmon/myProfile";
 const DashboardSidebar = async () => {
   const profile = await getMyProfile()
   // console.log(profile)
-  const role = profile?.data?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
-  const lowerCaseRole = role?.toLowerCase(); 
+ let currentRole = profile?.data?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
+  const lowerCaseRole = currentRole?.toLowerCase(); 
   const userData = profile && lowerCaseRole ? profile?.data[lowerCaseRole] : null;
-  // as UserInfo;
-  // console.log(lowerCaseRole,userData)
+  console.log(userData)
+  if (currentRole === 'GUIDE') {
+      // Check the 'isVerified' property on the guide data
+      // Note: Ensure your backend returns 'isVerified' inside profile.data.guide
+      if (userData && !userData.isVerified) {
+          currentRole = 'TOURIST';
+      }
+  }
 const userInfo={
     email: "",
     name: userData ? userData?.name : "user",
-    role
+    role: currentRole
   }
-  const navItems: NavSection[] = getNavItemsByRole(profile?.data?.role);
-  const dashboardHome = getDefaultDashboardRoute(profile?.data?.role);
+  // console.log({currentRole})
+  const navItems: NavSection[] = getNavItemsByRole(currentRole);
+  const dashboardHome = getDefaultDashboardRoute(currentRole);
   
 
   return (

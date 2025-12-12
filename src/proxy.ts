@@ -14,6 +14,8 @@ export async function proxy(request: NextRequest) {
     if (accessToken) {
         const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
 
+        console.log({verifiedToken})
+
         if (typeof verifiedToken === "string") {
             // cookieStore.delete("accessToken");
             // cookieStore.delete("refreshToken");

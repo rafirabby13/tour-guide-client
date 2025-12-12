@@ -34,7 +34,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         }
 
         const res = await serverFetch.post("/auth/login", {
-  
+
             body: JSON.stringify(loginData),
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         if (!refreshTokenObject) {
             throw new Error("Tokens not found in cookies");
         }
-       
+
 
         await setCookie("accessToken", accessTokenObject.accessToken, {
             secure: true,
@@ -91,12 +91,27 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
 
         }
 
-        const userRole: UserRole = verifiedToken.role;
+        // const userRole: UserRole = verifiedToken.role;
 
 
         if (!result.success) {
             throw new Error(result.message || "Login failed");
         }
+
+        let userRole: UserRole;
+
+        if (verifiedToken.role == "GUIDE" && result?.data?.isVerifiedGuide) {
+            userRole = verifiedToken.role;
+        }
+        else if (verifiedToken.role == "GUIDE" && !result?.data?.isVerifiedGuide) {
+            userRole = "TOURIST"
+        }
+        else {
+            userRole = verifiedToken.role;
+
+        }
+
+        // console.log({ result })
         if (redirectTo) {
             const requestedPath = redirectTo.toString();
             console.log({ requestedPath })
@@ -106,8 +121,8 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
                 redirect(getDefaultDashboardRoute(userRole));
             }
         }
-        else{
-                redirect(getDefaultDashboardRoute(userRole));
+        else {
+            redirect(getDefaultDashboardRoute(userRole));
 
         }
 

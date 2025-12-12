@@ -6,7 +6,7 @@ import { getMyProfile } from "@/services/commmon/myProfile";
 
 const DashboardNavbar = async () => {
   const profile = await getMyProfile()
-  console.log(profile)
+  // console.log(profile)
   const role = profile?.data?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
   const lowerCaseRole = role?.toLowerCase();
   const userData = profile && lowerCaseRole ? profile?.data[lowerCaseRole] : null;
