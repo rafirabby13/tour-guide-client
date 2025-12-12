@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Field,
@@ -46,6 +46,7 @@ const CreateTourForm = () => {
     const [previews, setPreviews] = useState<string[]>([]);
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // e.preventDefault()
         if (e.target.files) {
             const newFiles = Array.from(e.target.files);
 
@@ -77,23 +78,26 @@ const CreateTourForm = () => {
     };
 
     // --- Feedback Logic ---
+    useEffect(() => {
     if (state?.error) {
-        Swal.fire({
-            title: `Error Occurred!`,
-            text: state.error,
-            icon: "error",
-            draggable: true
-        });
+      Swal.fire({
+        title: `Error Occurred!`,
+        text: state.error,
+        icon: "error",
+        draggable: true
+      });
     }
     if (state?.success) {
-        Swal.fire({
-            title: "Tour Created!",
-            text: state.message,
-            icon: "success",
-            draggable: true
-        });
-        // router.push("/tours") // Redirect where needed
+      Swal.fire({
+        title: "Tour Created!",
+        text: state.message,
+        icon: "success",
+        draggable: true
+      });
+      // Optional: Redirect or reset form here
+      // router.push("/tours") 
     }
+  }, [state]);
 
     return (
         <form action={handleFormSubmit} className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">

@@ -111,7 +111,9 @@ export default function EditProfileModal({
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
 
-        <form action={formAction} encType="multipart/form-data">
+        <form action={formAction}
+        //  encType="multipart/form-data"
+         >
           <FieldGroup className="space-y-4">
 
             {/* --- Profile Photo --- */}

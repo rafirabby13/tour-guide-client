@@ -34,7 +34,7 @@ export default function Navbar({ profile }: { profile: any }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  console.log(profile.length)
+  // console.log(profile.length)
 
   // --- 1. User Data Extraction ---
   const role = profile?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"

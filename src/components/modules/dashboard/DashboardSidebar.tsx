@@ -4,12 +4,24 @@ import { getUserInfo } from "@/services/auth/getUserInfo";
 import { NavSection } from "@/types/dashboard.interface";
 import { UserInfo } from "@/types/user.interface";
 import DashboardSidebarContent from "../dashboard/DashboardSidebarContent"
+import { getMyProfile } from "@/services/commmon/myProfile";
 
 const DashboardSidebar = async () => {
-  const userInfo = (await getUserInfo()) as UserInfo;
-
-  const navItems: NavSection[] = getNavItemsByRole(userInfo.role);
-  const dashboardHome = getDefaultDashboardRoute(userInfo.role);
+  const profile = await getMyProfile()
+  // console.log(profile)
+  const role = profile?.data?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
+  const lowerCaseRole = role?.toLowerCase(); 
+  const userData = profile && lowerCaseRole ? profile?.data[lowerCaseRole] : null;
+  // as UserInfo;
+  // console.log(lowerCaseRole,userData)
+const userInfo={
+    email: "",
+    name: userData.name,
+    role
+  }
+  const navItems: NavSection[] = getNavItemsByRole(profile?.data?.role);
+  const dashboardHome = getDefaultDashboardRoute(profile?.data?.role);
+  
 
   return (
     <DashboardSidebarContent
