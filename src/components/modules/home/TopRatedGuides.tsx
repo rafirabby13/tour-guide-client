@@ -9,7 +9,7 @@ import { getTopGuides } from '@/services/guide/getTopGuides';
 const TopRatedGuides = async () => {
   const guides = await getTopGuides();
 
-  console.log(guides)
+  console.log({guides})
 
   return (
     <section className="py-24 bg-gray-50/50">

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Field,
@@ -20,7 +20,7 @@ const RegisterForm = () => {
     const [preview, setPreview] = useState<string | null>(null);
 
     const router = useRouter()
-  
+  const formRef = useRef<HTMLFormElement>(null);
     const getFieldError = (fieldName: string) => {
         if (state?.errors) {
             const error = state.errors.find((err: any) => err.field === fieldName);
@@ -50,24 +50,41 @@ const RegisterForm = () => {
         setPreview(URL.createObjectURL(file));
     };
 
-    if (state?.error) {
-        Swal.fire({
-            title: `Error Occured! ${state.error}`,
-            icon: "error",
-            draggable: true
-        });
-    }
-    if (state?.success) {
-        Swal.fire({
-            title: ` ${state.message}`,
-            icon: "success",
-            draggable: true
-        });
-        router.push("/login")
-    }
+   useEffect(() => {
+        if (!state) return; // Do nothing on initial load
+
+        if (state.error) {
+            Swal.fire({
+                title: `Error Occurred!`,
+                text: state.error,
+                icon: "error",
+                draggable: true
+            });
+            // ❌ DO NOT reset the form here.
+            // Leaving it alone keeps the user's typed data visible.
+        }
+
+        if (state.success) {
+            Swal.fire({
+                title: "Success",
+                text: state.message,
+                icon: "success",
+                draggable: true,
+                timer: 2000
+            });
+            
+            // ✅ RESET ONLY ON SUCCESS
+            formRef.current?.reset(); 
+            
+            // Redirect after a short delay so user sees the success message
+            setTimeout(() => {
+                router.push("/login");
+            }, 1000);
+        }
+    }, [state, router]);
 
     return (
-        <form action={formAction}>
+        <form action={formAction} ref={formRef}>
             <FieldGroup>
                 {/* {state?.error && (
                     <div className="bg-red-50 text-red-600 px-4 py-3 rounded-md text-sm mb-4">
