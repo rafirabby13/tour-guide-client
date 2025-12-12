@@ -37,7 +37,7 @@ const TourManagementTable = ({ tours, meta }: { tours: ITour[], meta: IMeta }) =
         {
             header: "Available Dates",
             accessor: (row) => {
-                const rawDates = row.availableDates as any;
+                const rawDates = row.tourAvailabilities as any;
 
                 if (!rawDates) return "No dates";
 
