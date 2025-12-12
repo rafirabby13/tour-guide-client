@@ -64,17 +64,7 @@ export const guideNavItems: NavSection[] = [
     },
 ];
 export const touristNavItems: NavSection[] = [
-    //    {
-    //     title: "Trips",
-    //     items: [
-    //         {
-    //             title: "Book Trip",
-    //             href: "/dashboard/book-a-trip",
-    //             icon: "Book", 
-    //             roles: ["TOURIST"],
-    //         },
-    //     ],
-    // },
+  
     {
         title: "My Trips",
         items: [
@@ -82,6 +72,17 @@ export const touristNavItems: NavSection[] = [
                 title: "My Bookings",
                 href: "/dashboard/my-bookings",
                 icon: "Calendar", // upcoming trips icon
+                roles: ["TOURIST"],
+            }
+        ],
+    },
+    {
+        title: "My Requests",
+        items: [
+            {
+                title: "Become A Guide",
+                href: "/dashboard/become-a-guide",
+                icon: "User", // upcoming trips icon
                 roles: ["TOURIST"],
             }
         ],
@@ -97,12 +98,12 @@ export const adminNavItems: NavSection[] = [
                 icon: "users",
                 roles: ["ADMIN"],
             },
-            // {
-            //     title: "Tourists",
-            //     href: "/admin/dashboard/tourists-management",
-            //     icon: "Users",
-            //     roles: ["ADMIN"],
-            // },
+            {
+                title: "Create Admin",
+                href: "/admin/dashboard/create-admin",
+                icon: "Users",
+                roles: ["ADMIN"],
+            },
             {
                 title: "Create Guide",
                 href: "/admin/dashboard/create-guide",
@@ -129,6 +130,17 @@ export const adminNavItems: NavSection[] = [
                 title: "All Bookings",
                 href: "/admin/dashboard/bookings-management",
                 icon: "CalendarCheck",
+                roles: ["ADMIN"],
+            },
+        ],
+    },
+    {
+        title: "Requests",
+        items: [
+            {
+                title: "Become Guide Request",
+                href: "/admin/dashboard/tour-management",
+                icon: "MapPin",
                 roles: ["ADMIN"],
             },
         ],

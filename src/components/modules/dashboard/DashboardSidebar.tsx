@@ -14,7 +14,7 @@ const DashboardSidebar = async () => {
   // console.log(lowerCaseRole,userData)
 const userInfo={
     email: "",
-    name: userData.name,
+    name: userData ? userData?.name : "user",
     role
   }
   const navItems: NavSection[] = getNavItemsByRole(profile?.data?.role);

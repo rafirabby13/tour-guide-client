@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const dynamic = "force-dynamic"; // <--- ADD THIS
 import React, { Suspense } from 'react';
 import { getAllTours } from '@/services/admin/tourManagement';
@@ -22,8 +23,12 @@ const ToursPage = async ({ searchParams }: ToursPageProps) => {
   // const query = new URLSearchParams(searchParams as any).toString();
   
   // Fetch Data
-  const response = await getAllTours(); // Ensure your service accepts query string
-  const tours = Array.isArray(response) ? response : response?.data || [];
+  const response = await getAllTours(); 
+  console.log(response)
+  const publishedTours = await response?.data?.filter((tour:any)=> tour.status =="PUBLISHED")
+  const tours = Array.isArray(publishedTours) ? publishedTours : publishedTours?.data || [];
+  // console.log(tours)
+  // const tours = Array.isArray(response) ? response : response?.data || [];
   const meta = response?.meta || { page: 1, limit: 10, total: 0 };
 
   return (

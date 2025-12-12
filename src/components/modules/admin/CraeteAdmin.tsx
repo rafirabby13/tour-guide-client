@@ -14,24 +14,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { createGuideAction } from "@/services/admin/createGuide";
+import { createAdminAction } from "@/services/admin/createAdmin";
 import { toast } from "sonner";
-import { Loader2, Compass, Mail, Lock, CheckCircle2 } from "lucide-react";
+import { Loader2, UserPlus, Mail, Lock, ShieldCheck } from "lucide-react";
 
-export function CreateGuide() {
+export function CreateAdminForm() {
   const [open, setOpen] = useState(false);
-  const [state, formAction, isPending] = useActionState(createGuideAction, null);
+  const [state, formAction, isPending] = useActionState(createAdminAction, null);
 
   useEffect(() => {
     if (state?.error) {
-      toast.error("Failed to add guide", {
-        description: state.error || "Something went wrong. Please try again.",
+      toast.error("Failed to create admin", {
+        description: state.error || "Please check your inputs and try again.",
       });
     }
     if (state?.success) {
-      toast.success("Guide Onboarded!", {
-        description: "Credentials created successfully.",
-        icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />,
+      toast.success("Admin Created Successfully", {
+        description: "Credentials have been generated.",
+        icon: <ShieldCheck className="h-5 w-5 text-green-500" />,
       });
       setOpen(false);
     }
@@ -41,29 +41,28 @@ export function CreateGuide() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-primary hover:bg-primary/90 shadow-sm transition-all hover:scale-105 active:scale-95">
-          <Compass className="mr-2 h-4 w-4" />
-          Add New Guide
+          <UserPlus className="mr-2 h-4 w-4" />
+          Create New Admin
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px] border-none shadow-2xl bg-white/95 backdrop-blur-xl">
         <DialogHeader className="space-y-3 pb-4 border-b border-gray-100">
-          <div className="mx-auto bg-blue-50 p-3 rounded-full w-fit">
-            <Compass className="h-6 w-6 text-primary" />
+          <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
+            <UserPlus className="h-6 w-6 text-primary" />
           </div>
           <DialogTitle className="text-center text-xl font-bold tracking-tight text-gray-900">
-            Onboard New Guide
+            Onboard New Admin
           </DialogTitle>
           <DialogDescription className="text-center text-gray-500 text-sm">
-            Set up access for a new tour guide. <br />
-            They will complete their profile upon first login.
+            Create secure credentials for a new administrator. <br />
+            They can complete their profile after logging in.
           </DialogDescription>
         </DialogHeader>
 
         <form action={formAction} className="mt-6">
           <FieldGroup className="space-y-5">
-            
-            {/* Email */}
+            {/* Email Field */}
             <Field>
               <FieldLabel htmlFor="email" className="font-medium text-gray-700">
                 Email Address
@@ -76,14 +75,14 @@ export function CreateGuide() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="guide@example.com"
+                  placeholder="admin@company.com"
                   required
                   className="pl-10 h-11 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                 />
               </div>
             </Field>
 
-            {/* Password */}
+            {/* Password Field */}
             <Field>
               <FieldLabel htmlFor="password" className="font-medium text-gray-700">
                 Temporary Password
@@ -101,21 +100,25 @@ export function CreateGuide() {
                   className="pl-10 h-11 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                 />
               </div>
+              <p className="text-[11px] text-muted-foreground mt-2 flex items-center gap-1">
+                <ShieldCheck className="h-3 w-3" />
+                Must be at least 8 characters long
+              </p>
             </Field>
 
             {/* Submit Button */}
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full h-11 mt-2 text-base font-medium shadow-md transition-all hover:shadow-lg disabled:opacity-70 bg-primary hover:primary/90"
+              className="w-full h-11 mt-2 text-base font-medium shadow-md transition-all hover:shadow-lg disabled:opacity-70"
             >
               {isPending ? (
                 <div className="flex items-center justify-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Creating Profile...</span>
+                  <span>Creating Account...</span>
                 </div>
               ) : (
-                "Create Guide Account"
+                "Confirm & Create"
               )}
             </Button>
           </FieldGroup>

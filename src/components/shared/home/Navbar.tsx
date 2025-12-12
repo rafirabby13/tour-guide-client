@@ -26,7 +26,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: "Explore", href: "/tours" }, 
   { label: "Cities", href: "/cities" },
-  { label: "Become a Guide", href: "/register?role=guide" },
+  { label: "Become a Guide", href: "/dashboard/become-a-guide" },
 ];
 
 export default function Navbar({ profile }: { profile: any }) {

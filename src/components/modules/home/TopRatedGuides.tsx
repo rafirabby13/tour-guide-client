@@ -45,7 +45,7 @@ const TopRatedGuides = async () => {
                   <div className="h-24 w-24 rounded-full border-4 border-white shadow-md overflow-hidden relative bg-gray-100">
                     <Image 
                       src={guide.profilePhoto || "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?_gl=1*j1dk4t*_ga*MTg1Nzg1OTAuMTc2NDAxMDA3NA..*_ga_8JE65Q40S6*czE3NjU1MDg4MzckbzUkZzEkdDE3NjU1MDg4NTMkajQ0JGwwJGgw" + guide.name + "&background=random"} 
-                      alt={guide.name}
+                      alt={guide?.name || "guide"}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
