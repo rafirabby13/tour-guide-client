@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic"; // <--- ADD THIS
+import BentoGrid from "@/components/modules/home/BentoGrid";
 import Categories from "@/components/modules/home/Categories";
 import HeroSection from "@/components/modules/home/HeroSection";
 import HowItWorks from "@/components/modules/home/HowItWorks";
@@ -18,7 +19,7 @@ export default function Home() {
       <TopRatedGuides />
       <Categories />
       <WhyChooseUs />
-      <Testimonials />
+      <BentoGrid/>
     </div>
     </div>
   );
