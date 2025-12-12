@@ -24,7 +24,7 @@ const ToursPage = async ({ searchParams }: ToursPageProps) => {
   
   // Fetch Data
   const response = await getAllTours(); 
-  console.log(response)
+  // console.log(response)
   const publishedTours = await response?.data?.filter((tour:any)=> tour.status =="PUBLISHED")
   const tours = Array.isArray(publishedTours) ? publishedTours : publishedTours?.data || [];
   // console.log(tours)

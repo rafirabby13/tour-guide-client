@@ -52,7 +52,7 @@ export default function HeroSection() {
 
      
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <div className="max-w-4xl space-y-8 animate-in fade-in zoom-in duration-700 slide-in-from-bottom-4">
+        <div className="max-w-5xl space-y-8 animate-in fade-in zoom-in duration-700 slide-in-from-bottom-4">
 
           {/* Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-xl">

@@ -6,7 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: "Create Account",
+  description: "Join GuideNest today to start exploring or guiding.",
+};
 const RegisterPage = () => {
   return (
     <>
