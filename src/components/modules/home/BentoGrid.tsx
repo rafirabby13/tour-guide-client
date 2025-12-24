@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { ArrowUpRight, Camera, Coffee, Compass, Map, Tent } from 'lucide-react';
+import { ArrowUpRight, Camera, Coffee, Compass, Map, MapPin, Tent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SectionHeader from '@/components/shared/home/SectionHeader';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ const BentoGrid = () => {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
-        
+
         <SectionHeader
           title="Find Your"
           highlight="Travel Vibe"
@@ -17,7 +17,7 @@ const BentoGrid = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-[1200px] md:h-[600px] mt-12">
-          
+
           {/* Item 1: Large Feature (Left) */}
           <div className="group relative md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden cursor-pointer">
             <Image
@@ -43,7 +43,7 @@ const BentoGrid = () => {
 
           {/* Item 2: Tall Feature (Right) */}
           <div className="group relative md:col-span-1 md:row-span-2 rounded-3xl overflow-hidden cursor-pointer">
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=1000&auto=format&fit=crop"
               alt="Hiking"
               fill
@@ -51,7 +51,7 @@ const BentoGrid = () => {
             />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
             <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md p-3 rounded-full border border-white/20">
-               <Tent className="w-5 h-5 text-white" />
+              <Tent className="w-5 h-5 text-white" />
             </div>
             <div className="absolute bottom-6 left-6 text-white">
               <h3 className="text-xl font-bold mb-1">Wild & Free</h3>
@@ -63,22 +63,39 @@ const BentoGrid = () => {
           <div className="md:col-span-1 md:row-span-1 bg-slate-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
             {/* Abstract Decoration */}
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-colors" />
-            
+
             <div>
               <Compass className="w-8 h-8 text-primary mb-4" />
               <h3 className="text-white font-bold text-lg leading-tight">
                 Not sure where to go?
               </h3>
             </div>
-            <Link href={'/tours'}><Button variant="outline" className="w-full border-slate-700 text-slate-900 hover:bg-slate-800 hover:text-white transition-colors bg-white/90">
+            <Link href={'/tours'}><Button variant="outline" className="w-full ">
               Explore Now
             </Button></Link>
           </div>
+          <div className="md:col-span-1 md:row-span-1 bg-primary rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+            {/* Abstract Decoration */}
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-colors" />
+
+            <div>
+              <MapPin className="w-8 h-8 text-secondary mb-4" /> {/* Changed icon */}
+              <h3 className="text-white font-bold text-lg leading-tight">
+                Find hidden gems near you
+              </h3> {/* Changed title */}
+            </div>
+            <Link href={'/tours'}>
+              <Button variant="outline" className="w-full   ">
+                Discover Now
+              </Button> {/* Changed button variant and link */}
+            </Link>
+          </div>
+
 
           {/* Item 4: Wide Bottom (Bottom Left) */}
           <div className="group relative md:col-span-2 md:row-span-1 rounded-3xl overflow-hidden cursor-pointer">
             <Image
-              src="https://images.unsplash.com/photo-1512453979798-5ea904a8486d?q=80&w=1000&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1598890777032-bde835ba27c2?q=40&w=1000&auto=format&fit=crop"
               alt="History"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -97,22 +114,22 @@ const BentoGrid = () => {
 
           {/* Item 5: Small Stat / Icon Box (Bottom Middle) */}
           <div className="group md:col-span-1 md:row-span-1 bg-primary/10 rounded-3xl p-6 flex flex-col items-center justify-center text-center border border-primary/20 hover:border-primary/50 transition-colors cursor-pointer">
-             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 group-hover:scale-110 transition-transform">
-               <Map className="w-6 h-6 text-primary" />
-             </div>
-             <div className="text-2xl font-black text-slate-900">8+</div>
-             <div className="text-xs font-medium text-slate-500 uppercase">Cities Live</div>
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 group-hover:scale-110 transition-transform">
+              <Map className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-black text-slate-900">8+</div>
+            <div className="text-xs font-medium text-slate-500 uppercase">Cities Live</div>
           </div>
 
-           {/* Item 6: Image Box (Bottom Right) */}
-           <div className="group relative md:col-span-1 md:row-span-1 rounded-3xl overflow-hidden cursor-pointer">
-             <Image
+          {/* Item 6: Image Box (Bottom Right) */}
+          <div className="group relative md:col-span-1 md:row-span-1 rounded-3xl overflow-hidden cursor-pointer">
+            <Image
               src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1000&auto=format&fit=crop"
               alt="Bus"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
-             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
           </div>
 
         </div>

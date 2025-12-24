@@ -187,15 +187,15 @@ const BecomeGuideTable = ({ initialRequests }: { initialRequests: IGuideProfile[
             </div>
 
             {/* Approval Dialog */}
-            {selectedGuide && (
-                <DeleteConfirmationDialog
+            {/* {selectedGuide && (
+                <edit
                     open={isConfirmOpen}
                     onOpenChange={setIsConfirmOpen}
                     onConfirm={handleConfirmApprove}
                     title="Approve Guide Application?"
                     isDeleting={isProcessing} // Use isProcessing
                 />
-            )}
+            )} */}
         </div>
     );
 };

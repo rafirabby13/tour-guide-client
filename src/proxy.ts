@@ -1,8 +1,9 @@
 
+
 import { getDefaultDashboardRoute, getRouteOwner, isAuthRoute, UserRole } from '@/lib/auth-utils';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { NextResponse, NextRequest } from 'next/server'
 import { deleteCookie } from './services/auth/tokenHandlers';
+import { NextRequest, NextResponse } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
@@ -12,9 +13,9 @@ export async function proxy(request: NextRequest) {
     const accessToken = request.cookies.get("accessToken")?.value || null;
     let userRole: UserRole | null = null;
     if (accessToken) {
-        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
+        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET!);
 
-        console.log({verifiedToken})
+        console.log("verifiedToken:", verifiedToken);
 
         if (typeof verifiedToken === "string") {
             // cookieStore.delete("accessToken");

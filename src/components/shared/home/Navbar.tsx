@@ -125,12 +125,12 @@ export default function Navbar({ profile }: { profile: any }) {
             {profile.length == 0 ? (
               // Guest State
               <>
-                <Button variant="outline" asChild className="text-slate-600 hover:text-primary">
+                <Button  asChild variant={"default"} className=" hover:text-secondary">
                   <Link href="/login">Log in</Link>
                 </Button>
-                <Button asChild>
+                {/* <Button asChild>
                   <Link href="/register">Sign up</Link>
-                </Button>
+                </Button> */}
               </>
             ) : (
               // Logged In State (Dropdown)
@@ -240,12 +240,12 @@ export default function Navbar({ profile }: { profile: any }) {
               {/* Mobile Auth Section */}
               {!profile ? (
                 <div className="flex flex-col gap-3">
-                  <Button asChild className="w-full h-12 text-base">
+                  <Button asChild variant={"default"} className="w-full h-12 text-base">
                     <Link href="/login">Log In</Link>
                   </Button>
-                  <Button variant="outline" asChild className="w-full h-12 text-base">
+                  {/* <Button variant="outline" asChild className="w-full h-12 text-base">
                     <Link href="/register">Sign Up</Link>
-                  </Button>
+                  </Button> */}
                 </div>
               ) : (
                 <div className="space-y-4">

@@ -2,9 +2,6 @@ import RegisterForm from "@/components/modules/auth/register-form";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Metadata } from "next";
 
@@ -16,15 +13,10 @@ export const metadata: Metadata = {
 const RegisterPage = () => {
   return (
     <>
-      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-xl">
+      <div className="flex min-h-svh w-full items-center justify-center p-4">
+        <div className="w-full max-w-5xl">
           <Card>
-            <CardHeader>
-              <CardTitle>Create an account</CardTitle>
-              <CardDescription>
-                Enter your information below to create your account
-              </CardDescription>
-            </CardHeader>
+         
             <CardContent>
               <RegisterForm />
             </CardContent>
