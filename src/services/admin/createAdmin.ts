@@ -26,7 +26,7 @@ export const createAdminAction = async (_currentState: any, formData: FormData):
         const backendFormData = new FormData();
         backendFormData.append("data", JSON.stringify(registerData));
 
-     console.log({backendFormData})
+    //  console.log({backendFormData})
         const res = await serverFetch.post("/user/create-admin", {
             body: backendFormData,
         });

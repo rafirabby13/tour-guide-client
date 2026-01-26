@@ -46,7 +46,7 @@ export default function EditTourDialog({
 }: EditTourDialogProps) {
   const router = useRouter();
 
-  console.log({ tour })
+  // console.log({ tour })
 
   // Hook for Server Action
   const [state, formAction, isPending] = useActionState(updateTour, null);

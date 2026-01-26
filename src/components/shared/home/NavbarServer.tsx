@@ -7,7 +7,7 @@ export default async function NavbarServer() {
 
 
   const profile = await getMyProfile()
-  console.log(profile?.data)
+  // console.log(profile?.data)
 
   return <Navbar profile={profile?.data || []} />;
 }

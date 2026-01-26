@@ -36,7 +36,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     // Slider Images (High quality travel photos)
     const slides = [
         { id: 1, src: "https://img.freepik.com/free-vector/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-people-entering-login-password-safety-measures_335657-3530.jpg", alt: "Travel 1" }, // Mountain
-        { id: 2, src: "https://img.freepik.com/free-photo/3d-render-secure-login-password-illustration_107791-16640.jpg", alt: "Travel 2" }, // Ocean
+        { id: 2, src: "https://img.freepik.com/free-photo/3d-render-secure-login-password-illustration_107791-16640.jpg", alt: "Travel 2" }, 
         { id: 3, src: "https://img.freepik.com/free-vector/cyber-data-security-online-concept-illustration-internet-security-information-privacy-protection_1150-37328.jpg", alt: "Travel 3" }, // City
     ];
 
@@ -91,9 +91,9 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
                                     <Image
                                         src={slide.src}
                                         alt={slide.alt}
-                                        width={1000}
-                                        height={100}
-                                        className="object-cover"
+                                        width={2000}
+                                        height={300}
+                                        className="object-cover w-full h-[90vh] brightness-75"
                                         priority={slide.id === 1}
                                     />
                                 </CarouselItem>
@@ -101,7 +101,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
                         </CarouselContent>
                     </Carousel>
                     {/* Dark Overlay for Text Readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-black/30" />
                 </div>
 
                 {/* Branding Content (Z-Index ensures it sits on top of slider) */}

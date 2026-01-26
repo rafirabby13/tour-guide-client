@@ -13,7 +13,7 @@ export const deleteTour = async (tourId: string) => {
         return result;
 
     } catch (error: any) {
-        console.error("Update Tour error:", error);
+        // console.error("Update Tour error:", error);
         return {
             success: false,
             error: error.message || "Failed to Delete tour. Please try again.",

@@ -79,7 +79,7 @@ const TourManagementTable = ({ tours, meta }: { tours: ITour[], meta: IMeta }) =
         try {
 
             if (data?.status !== selectedTour.status) {
-                console.log(selectedTour.id, data.status)
+                // console.log(selectedTour.id, data.status)
                 await updateTourStatus(selectedTour.id, data.status)
                 setTourList((prevTours) =>
                     prevTours.map((Tour) =>

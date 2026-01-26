@@ -83,7 +83,7 @@ export default function EditProfileModal({
   // Effect: Handle Success/Error
   useEffect(() => {
     if (state?.error) {
-      console.log(state)
+      // console.log(state)
       Swal.fire({
         title: "Error Occurred",
         text: state.error.message,

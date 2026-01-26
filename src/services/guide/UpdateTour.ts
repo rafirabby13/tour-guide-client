@@ -83,7 +83,7 @@ export const updateTour = async (_currentState: any, formData: FormData): Promis
         const validatedFields = createTourFormSchema.safeParse(rawData);
 
         if (!validatedFields.success) {
-            console.log("Validation failed:", validatedFields.error.issues);
+            // console.log("Validation failed:", validatedFields.error.issues);
             return {
                 success: false,
                 errors: validatedFields.error.issues.map((issue) => ({
@@ -125,7 +125,7 @@ export const updateTour = async (_currentState: any, formData: FormData): Promis
         return result;
 
     } catch (error: any) {
-        console.error("Update Tour error:", error);
+        // console.error("Update Tour error:", error);
         return {
             success: false,
             error: error.message || "Failed to update tour. Please try again.",

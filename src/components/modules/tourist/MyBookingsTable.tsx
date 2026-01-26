@@ -30,20 +30,20 @@ const MyBookingsTable = ({ bookings, meta }: MyBookingsTableProps) => {
 
     // --- Handlers ---
     const handleReviewClick = (booking: ITour) => {
-        console.log(booking)
+        // console.log(booking)
         setSelectedBooking(booking);
         setIsReviewOpen(true);
     };
 
     const handlePayNow = async(item: any) => {
         // If paymentUrl is stored in booking or generated on fly
-        console.log(item)
+        // console.log(item)
         const payment = await initiatePayment(item?.id)
         if (payment && payment.success) {
             window.location.href = payment.paymentUrl;
             
         }
-        console.log(payment.paymentUrl)
+        // console.log(payment.paymentUrl)
     };
 
    

@@ -2,9 +2,9 @@ export const dynamic = "force-dynamic"; // <--- ADD THIS
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
 import LogoutSuccessToast from "@/components/shared/toast/LogoutSuccessToast";
 import { Suspense } from "react";
+import { ToasterProviders } from "@/components/providers/ToasterProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  // console.log({ ToasterProviders })
   return (
     <html lang="en">
       <body
@@ -55,13 +56,14 @@ export default function RootLayout({
       >
 
 
+
         {children}
 
 
-        <Toaster position="top-right" richColors />
         <Suspense fallback={null}>
           <LogoutSuccessToast />
         </Suspense>
+        <ToasterProviders />
       </body>
     </html>
   );

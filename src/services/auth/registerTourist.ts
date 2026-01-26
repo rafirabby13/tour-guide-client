@@ -89,7 +89,7 @@ export const registerTourist = async (_currentState: any, formData: FormData): P
 
         const result = await res.json();
 
-        console.log(res, "res");
+        // console.log(res, "res");
 
         if (result.success) {
             await loginUser(_currentState, formData);

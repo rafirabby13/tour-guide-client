@@ -10,7 +10,7 @@ import { getPopularDestinations } from '@/services/commmon/getPopularDestination
 
 const CitiesPage = async () => {
   const { data: popularDestinations } = await getPopularDestinations();
-  console.log(popularDestinations)
+  // console.log(popularDestinations)
   const citiesToDisplay = popularDestinations?.length > 0 ? popularDestinations : [];
   return (
     <div className="min-h-screen bg-white pb-20">

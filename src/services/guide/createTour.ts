@@ -14,7 +14,7 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
         const guide = await getMyProfile();
 
 
-        console.log({guide})
+        // console.log({guide})
 
         for (const file of files) {
             if (file.size === 0) continue; // skip empty
@@ -83,7 +83,7 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
 
         const validatedFields = createTourFormSchema.safeParse(rawData);
         if (!validatedFields.success) {
-            console.log("Validation failed:", validatedFields.error.issues);
+            // console.log("Validation failed:", validatedFields.error.issues);
             return {
                 success: false,
                 errors: validatedFields.error.issues.map((issue: { path: any[]; message: any }) => ({
@@ -108,7 +108,7 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
             backendFormData.append("files", file);
         });
 
-        console.log(backendFormData.get('data'))
+        // console.log(backendFormData.get('data'))
 
         const data = backendFormData.get('data')
 
@@ -126,7 +126,7 @@ export const createTour = async (_currentState: any, formData: FormData): Promis
 
         return  result ;
     } catch (error: any) {
-        console.error("Create Tour error:", error);
+        // console.error("Create Tour error:", error);
         return {
             success: false,
             error: error.message || "Failed to create tour. Please try again.",

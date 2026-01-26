@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Snowfall from 'react-snowfall'
 
 // Define navigation items
 type NavItem = {
@@ -24,7 +25,7 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Explore", href: "/tours" }, 
+  { label: "Explore", href: "/tours" },
   { label: "Cities", href: "/cities" },
   { label: "Become a Guide", href: "/dashboard/become-a-guide" },
 ];
@@ -38,7 +39,7 @@ export default function Navbar({ profile }: { profile: any }) {
 
   // --- 1. User Data Extraction ---
   const role = profile?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
-  const lowerCaseRole = role?.toLowerCase(); 
+  const lowerCaseRole = role?.toLowerCase();
   const userData = profile && lowerCaseRole ? profile[lowerCaseRole] : null;
 
   const user = {
@@ -46,8 +47,8 @@ export default function Navbar({ profile }: { profile: any }) {
     email: profile?.email || "",
     avatarUrl: userData?.profilePhoto || "",
     // Generate initials for avatar fallback (e.g., "John Doe" -> "JD")
-    initials: userData?.name 
-      ? userData.name.split(' ').map((n:string) => n[0]).join('').substring(0, 2).toUpperCase() 
+    initials: userData?.name
+      ? userData.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
       : "U",
   };
 
@@ -67,14 +68,15 @@ export default function Navbar({ profile }: { profile: any }) {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white/80 backdrop-blur-md border-gray-200 shadow-sm" 
+      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${isScrolled
+          ? "bg-white/80 backdrop-blur-md border-gray-200 shadow-sm"
           : "bg-white border-transparent"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4 h-24 flex items-center justify-between">
-        
+        <Snowfall
+          color="pink"
+          snowflakeCount={40} />
         {/* --- Logo --- */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="bg-primary/10 p-1.5 rounded-lg group-hover:bg-primary/20 transition-colors">
@@ -99,9 +101,8 @@ export default function Navbar({ profile }: { profile: any }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === item.href ? "text-primary" : "text-slate-600"
-              }`}
+              className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-slate-600"
+                }`}
             >
               {item.label}
             </Link>
@@ -110,7 +111,7 @@ export default function Navbar({ profile }: { profile: any }) {
 
         {/* --- Right Side (Auth & Mobile Toggle) --- */}
         <div className="flex items-center gap-4">
-          
+
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
@@ -125,7 +126,7 @@ export default function Navbar({ profile }: { profile: any }) {
             {profile.length == 0 ? (
               // Guest State
               <>
-                <Button  asChild variant={"default"} className=" hover:text-secondary">
+                <Button asChild variant={"default"} className=" hover:text-secondary">
                   <Link href="/login">Log in</Link>
                 </Button>
                 {/* <Button asChild>
@@ -145,7 +146,7 @@ export default function Navbar({ profile }: { profile: any }) {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                
+
                 <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
@@ -156,14 +157,14 @@ export default function Navbar({ profile }: { profile: any }) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  
+
                   <DropdownMenuItem asChild>
                     <Link href={getDashboardLink()} className="cursor-pointer w-full flex items-center">
                       <LayoutDashboard className="mr-2 h-4 w-4 text-slate-500" />
                       <span>Dashboard</span>
                     </Link>
                   </DropdownMenuItem>
-                  
+
                   <DropdownMenuItem asChild>
                     <Link href="/my-profile" className="cursor-pointer w-full flex items-center">
                       <UserIcon className="mr-2 h-4 w-4 text-slate-500" />
@@ -179,12 +180,12 @@ export default function Navbar({ profile }: { profile: any }) {
                       </Link>
                     </DropdownMenuItem>
                   )}
-                  
+
                   <DropdownMenuSeparator />
-                  
+
                   {/* Logout Button Integration */}
                   <div className="p-1">
-                     <LogoutButton /> 
+                    <LogoutButton />
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -197,18 +198,18 @@ export default function Navbar({ profile }: { profile: any }) {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}
-          <div 
+          <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
           />
-          
+
           {/* Drawer Panel */}
           <div className="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-300">
-            
+
             {/* Drawer Header */}
             <div className="flex items-center justify-between mb-8">
               <span className="font-bold text-lg text-slate-900">Menu</span>
-              <button 
+              <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 hover:bg-slate-100 rounded-full transition-colors"
               >
@@ -223,11 +224,10 @@ export default function Navbar({ profile }: { profile: any }) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-                      pathname === item.href 
-                        ? "bg-primary/5 text-primary" 
+                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${pathname === item.href
+                        ? "bg-primary/5 text-primary"
                         : "text-slate-700 hover:bg-slate-50"
-                    }`}
+                      }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -260,34 +260,34 @@ export default function Navbar({ profile }: { profile: any }) {
                       <p className="text-xs text-slate-500 truncate">{user.email}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col gap-1">
-                    <Link 
-                      href={getDashboardLink()} 
+                    <Link
+                      href={getDashboardLink()}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 rounded-lg text-sm font-medium text-slate-700"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <LayoutDashboard className="h-5 w-5 text-slate-400" /> Dashboard
                     </Link>
-                    <Link 
-                      href="/my-profile" 
+                    <Link
+                      href="/my-profile"
                       className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 rounded-lg text-sm font-medium text-slate-700"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <UserIcon className="h-5 w-5 text-slate-400" /> Profile
                     </Link>
                   </div>
-                  
+
                   <div className="pt-2">
                     {/* Ensure LogoutButton is full width in mobile */}
                     <div className="w-full [&>button]:w-full [&>button]:justify-center [&>button]:h-11 [&>button]:bg-red-50 [&>button]:text-red-600 hover:[&>button]:bg-red-100">
-                       <LogoutButton />
+                      <LogoutButton />
                     </div>
                   </div>
                 </div>
               )}
             </div>
-            
+
             <div className="text-xs text-slate-400 text-center mt-6 pt-6 border-t">
               © {new Date().getFullYear()} GuideNest Inc.
             </div>

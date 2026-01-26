@@ -5,7 +5,7 @@ import React from 'react'
 
 const BookingPage = async () => {
     const bookings = await getGuideBookings()
-    console.log(bookings)
+    // console.log(bookings)
   return (
     <div>
       <GuideBookingsTable bookings={bookings.data} meta={bookings.meta}/>

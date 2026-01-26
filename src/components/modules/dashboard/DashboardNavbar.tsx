@@ -6,10 +6,12 @@ import { getMyProfile } from "@/services/commmon/myProfile";
 
 const DashboardNavbar = async () => {
   const profile = await getMyProfile()
-  // console.log(profile)
+  // console.log({ profile })
   const role = profile?.data?.role; // Expected: "TOURIST", "GUIDE", "ADMIN"
+  // console.log({ role })
   const lowerCaseRole = role?.toLowerCase();
   const userData = profile && lowerCaseRole ? profile?.data[lowerCaseRole] : null;
+  // console.log({ userData })
   // as UserInfo;
   // console.log(lowerCaseRole,userData)
   const userInfo = {
@@ -17,8 +19,8 @@ const DashboardNavbar = async () => {
     name: userData ? userData?.name : "user",
     role
   }
-  const navItems = getNavItemsByRole(userInfo.role);
-  const dashboardHome = getDefaultDashboardRoute(userInfo.role);
+  const navItems = getNavItemsByRole(role);
+  const dashboardHome = getDefaultDashboardRoute(role);
 
   return (
     <DashboardNavbarContent

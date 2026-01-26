@@ -114,7 +114,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         // console.log({ result })
         if (redirectTo) {
             const requestedPath = redirectTo.toString();
-            console.log({ requestedPath })
+            // console.log({ requestedPath })
             if (isValidRedirectForRole(requestedPath, userRole)) {
                 redirect(requestedPath);
             } else {

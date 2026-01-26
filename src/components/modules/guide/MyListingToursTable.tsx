@@ -95,7 +95,7 @@ const MyListingToursTable = ({ tours, meta }: { tours: ITour[], meta: IMeta }) =
         if (!selectedTour) return;
         setIsEditing(true);
         try {
-            console.log("Updating tour:", data);
+            // console.log("Updating tour:", data);
 
             // Example: Logic to update status if changed
             if (data?.status !== selectedTour.status) {

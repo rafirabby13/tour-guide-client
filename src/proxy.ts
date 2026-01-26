@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
-    console.log("pathname", request.nextUrl.pathname)
+    // console.log("pathname", request.nextUrl.pathname)
     const pathname = request.nextUrl.pathname;
     //   return NextResponse.redirect(new URL('/', request.url))
     const accessToken = request.cookies.get("accessToken")?.value || null;
@@ -15,7 +15,7 @@ export async function proxy(request: NextRequest) {
     if (accessToken) {
         const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET!);
 
-        console.log("verifiedToken:", verifiedToken);
+        // console.log("verifiedToken:", verifiedToken);
 
         if (typeof verifiedToken === "string") {
             // cookieStore.delete("accessToken");
@@ -30,6 +30,8 @@ export async function proxy(request: NextRequest) {
         userRole = verifiedToken.role;
     }
     const routerOwner = getRouteOwner(pathname);
+
+    // console.log({routerOwner})
     const isAuth = isAuthRoute(pathname)
     if (accessToken && isAuth) {
         return NextResponse.redirect(new URL(getDefaultDashboardRoute(userRole as UserRole), request.url))

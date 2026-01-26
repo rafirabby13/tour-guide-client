@@ -2,7 +2,6 @@
 export const dynamic = "force-dynamic"; // <--- ADD THIS
 import React, { Suspense } from 'react';
 import { getAllTours } from '@/services/admin/tourManagement';
-import ToursHeader from '@/components/modules/tours/ToursHeader';
 import ToursFilter from '@/components/modules/tours/ToursFilter';
 import ToursGrid from '@/components/modules/tours/ToursGrid';
 import TablePagination from '@/components/shared/tables/TablePagination';
@@ -41,7 +40,6 @@ const ToursPage = async (props: ToursPageProps) => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 pt-5">
-
       {/* 1. Header & Breadcrumbs */}
       {/* <ToursHeader totalTours={publishedTours.length} /> */}
 

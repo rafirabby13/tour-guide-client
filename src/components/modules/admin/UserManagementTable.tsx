@@ -22,7 +22,7 @@ const UserManagementTable = ({ users, meta }: { users: IUser[], meta: IMeta }) =
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
-    console.log({ meta })
+    // console.log({ meta })
 
     // const validusers = userList?.filter(user => user.isDeleted === false)
 
@@ -68,7 +68,7 @@ const UserManagementTable = ({ users, meta }: { users: IUser[], meta: IMeta }) =
         if (!selectedUser) return;
         setIsEditing(true);
         try {
-            console.log("object", data)
+            // console.log("object", data)
             if (data?.role !== selectedUser.role && data?.status == selectedUser.status) {
                 await updateUserRole(selectedUser.id, data.role)
                 setUserList((prevUsers) =>
@@ -80,7 +80,7 @@ const UserManagementTable = ({ users, meta }: { users: IUser[], meta: IMeta }) =
                 );
             }
             if (data?.status !== selectedUser.status && data?.role == selectedUser.role) {
-                console.log(selectedUser.id, data.status)
+                // console.log(selectedUser.id, data.status)
                 await updateUserStatus(selectedUser.id, data.status)
                 setUserList((prevUsers) =>
                     prevUsers.map((user) =>
@@ -91,7 +91,7 @@ const UserManagementTable = ({ users, meta }: { users: IUser[], meta: IMeta }) =
                 );
             }
             if (data?.status !== selectedUser.status && data?.role !== selectedUser.role) {
-                console.log(selectedUser.id, data.status)
+                // console.log(selectedUser.id, data.status)
                 await Promise.all([
 
                     updateUserStatus(selectedUser.id, data.status),

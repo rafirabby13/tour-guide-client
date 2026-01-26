@@ -7,7 +7,7 @@ import { adminProfileSchema, guideProfileSchema, touristProfileSchema } from "./
 
 export const updateMyProfile = async (_currentState: string, formData: FormData): Promise<any> => {
     try {
-        console.log(".......sdfsdgsdfg.......")
+        // console.log(".......sdfsdgsdfg.......")
         const file = formData.get("file") as File | null;
         const profile = await getMyProfile()
 
@@ -15,7 +15,7 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
         const role = profile?.data?.role
 
 
-        console.log({ role })
+        // console.log({ role })
 
         if (file && file.size > 0) {
             if (file.size > 5 * 1024 * 1024) {
@@ -57,7 +57,7 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
             category: formData.getAll("category"),
         };
 
-        console.log({ rawData })
+        // console.log({ rawData })
 
         let validatedFields;
 
@@ -72,7 +72,7 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
         }
 
         if (!validatedFields.success) {
-            console.log("false........")
+            // console.log("false........")
             return {
                 success: false,
                 errors: validatedFields.error.issues.map(issue => ({
@@ -94,13 +94,13 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
 
 
         backendFormData.append("data", JSON.stringify(updateData));
-        console.log({ backendFormData })
+        // console.log({ backendFormData })
 
         if (file && file.size > 0) {
             backendFormData.append("file", file);
         }
-        console.log("...............................fdsgdfg............dfsg")
-        console.log(".............", { backendFormData })
+        // console.log("...............................fdsgdfg............dfsg")
+        // console.log(".............", { backendFormData })
 
         const res = await serverFetch.patch("/user/update-profile", {
             body: backendFormData,
@@ -111,7 +111,7 @@ export const updateMyProfile = async (_currentState: string, formData: FormData)
         return result;
 
     } catch (error: any) {
-        console.error("Update Profile Error:", error);
+        // console.error("Update Profile Error:", error);
         return {
             success: false,
             error: "Update failed. Please try again."

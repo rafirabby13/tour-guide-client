@@ -7,9 +7,9 @@ interface SearchParamsProps {
 }
 const UsersManagementPage = async ({ searchParams }: SearchParamsProps) => {
   const query = await searchParams;
-  console.log({query})
+//   console.log({query})
    const users = await getAllUsers(query )
-   console.log({users})
+//    console.log({users})
     // const validusers = userList?.filter(user => user.isDeleted === false)
 
 

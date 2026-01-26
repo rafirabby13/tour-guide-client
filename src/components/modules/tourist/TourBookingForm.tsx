@@ -52,7 +52,7 @@ export default function TourBookingForm({ tourId, pricePerHour, maxGuests, avail
 
     const selectedDate = new Date(date);
     const dayOfWeek = selectedDate.getDay(); // 0 (Sun) - 6 (Sat)
-    console.log(availabilities, dayOfWeek)
+    // console.log(availabilities, dayOfWeek)
 
     // Find if guide works on this day
     const schedule = availabilities.find((slot: any) => slot.dayOfWeek === dayOfWeek);
@@ -65,7 +65,7 @@ export default function TourBookingForm({ tourId, pricePerHour, maxGuests, avail
     let min = minToTime(schedule.startTimeMinutes);
     const max = minToTime(schedule.endTimeMinutes);
 
-    console.log(min)
+    // console.log(min)
 
     // If TODAY, ensure min time is not in the past
     const todayStr = new Date().toISOString().split("T")[0];

@@ -25,13 +25,13 @@ export async function changePasswordAction(_prevState: any, formData: FormData) 
         };
     }
 
-    console.log({ rawData })
+    // console.log({ rawData })
     const data = {
         oldPassword: rawData.oldPassword,
         newPassword: rawData.newPassword,
     }
 
-    console.log(data)
+    // console.log(data)
 
     // 3. Call Backend
     try {

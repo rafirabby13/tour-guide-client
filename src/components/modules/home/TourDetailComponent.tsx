@@ -30,10 +30,10 @@ const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 
 const TourDetailComponent = async ({ id }: { id: string }) => {
-  console.log(id)
+  // console.log(id)
   const profile = await getMyProfile()
   const data = await getSingleTour(id)
-  console.log(data)
+  // console.log(data)
   const tour = data.data
   if (!tour) return <div className="container py-20 text-center text-xl font-medium">Tour not found.</div>;
 
