@@ -28,7 +28,7 @@ const ToursPage = async (props: ToursPageProps) => {
     }
   });
   const query = queryParams.toString();
-  const response = await getAllTours(query);
+  const response = await getAllTours(queryParams as any);
 
 
   return (

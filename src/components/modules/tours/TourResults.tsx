@@ -5,7 +5,7 @@ import TablePagination from '@/components/shared/tables/TablePagination';
 
 
 const TourResults = async ({ query }: { query: string }) => {
-    const response = await getAllTours(query);
+    const response = await getAllTours(query as number | any);
     const toursData = response?.data || [];
     const publishedTours = Array.isArray(toursData)
         ? toursData.filter((tour: any) => tour.status === "PUBLISHED")
