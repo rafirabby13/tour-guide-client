@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 const LoginPage = async ({searchParams}: {searchParams?: Promise<{redirect?: string}>}) => {
   // console.log(await searchParams)
   const {redirect} = await searchParams || {};
+  
   return (
     <div className="flex min-h-screen items-center justify-center">
      

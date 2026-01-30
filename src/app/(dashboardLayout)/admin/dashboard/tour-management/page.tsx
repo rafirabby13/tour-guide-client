@@ -10,6 +10,7 @@ const AllToursPage = async ({ searchParams }: SearchParamsProps) => {
     // 1. Await params for pagination
     const query = await searchParams;
     
+    
     // 2. Fetch tours with the query (page, limit, etc.)
     const toursResponse = await getAllTours();
 

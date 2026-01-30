@@ -1,20 +1,12 @@
 export const dynamic = "force-dynamic"; // <--- ADD THIS
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import LogoutSuccessToast from "@/components/shared/toast/LogoutSuccessToast";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { ToasterProviders } from "@/components/providers/ToasterProviders";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 export const notoSans = Noto_Sans({
   variable: "--noto-sans",
   subsets: ["latin"],

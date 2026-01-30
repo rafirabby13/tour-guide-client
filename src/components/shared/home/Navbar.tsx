@@ -25,6 +25,7 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
+  { label: "Home", href: "/" },
   { label: "Explore", href: "/tours" },
   { label: "Cities", href: "/cities" },
   { label: "Become a Guide", href: "/dashboard/become-a-guide" },
@@ -101,7 +102,7 @@ export default function Navbar({ profile }: { profile: any }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-slate-600"
+              className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary border-b-2 border-primary pb-0.5 " : "text-slate-600  hover:border-slate-300 pb-0.5"
                 }`}
             >
               {item.label}

@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { serverFetch } from "@/lib/server-fetch"
 
-export async function getAllTours(query: string = "") {
+export async function getAllTours(query: { limit?: number } = {}) {
     try {
-        const url = query ? `/tour/all-tours?${query}` : `/tour/all-tours`;
+        // console.log({query})
+        const url = query ? `/tour/all-tours?limit=${query.limit}` : `/tour/all-tours`;
+        // console.log({url})
         // const page = Number(query.page)
         const response = await serverFetch.get(url)
         const result = await response.json()

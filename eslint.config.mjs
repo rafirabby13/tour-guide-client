@@ -13,6 +13,19 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+
+      "no-undef": ["warn"],
+      "class-methods-use-this": "warn",
+      "no-unused-expressions": ["warn"],
+      "no-useless-constructor": 0,
+      "no-loop-func": 0,
+      "react/jsx-no-bind": "warn",
+      "react-hooks/exhaustive-deps": "error",
+      "no-console": ["warn", { "allow": ["warn", "error"] }]
+    }
+  },
 ]);
 
 export default eslintConfig;

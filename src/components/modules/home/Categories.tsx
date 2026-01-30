@@ -58,11 +58,12 @@ const CategoryCard = ({ cat }: { cat: typeof CATEGORIES[0] }) => (
       src={cat.image} 
       alt={cat.label}
       fill
+      sizes="300px"
       className="object-cover transition-transform duration-700 group-hover:scale-110"
     />
     
     {/* Gradient Overlay */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
     {/* Top Right Arrow */}
     <div className="absolute top-3 right-3 p-2 bg-white/20 backdrop-blur-md rounded-full text-white opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">

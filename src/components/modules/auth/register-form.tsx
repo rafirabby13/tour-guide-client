@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Field,
-    FieldDescription,
-    FieldGroup,
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -22,13 +20,13 @@ const RegisterForm = () => {
 
     const router = useRouter()
     const formRef = useRef<HTMLFormElement>(null);
-    const getFieldError = (fieldName: string) => {
-        if (state?.errors) {
-            const error = state.errors.find((err: any) => err.field === fieldName);
-            return error ? error.message : null;
-        }
-        return null;
-    };
+    // const getFieldError = (fieldName: string) => {
+    //     if (state?.errors) {
+    //         const error = state.errors.find((err: any) => err.field === fieldName);
+    //         return error ? error.message : null;
+    //     }
+    //     return null;
+    // };
 
     // 🔥 Handle Image Upload Preview
     const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

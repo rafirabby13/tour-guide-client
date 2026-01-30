@@ -2,11 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { useActionState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { Plus, Trash2, UploadCloud, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -28,9 +27,9 @@ import { updateTour } from "@/services/guide/UpdateTour";
 import { validatePricingOnClient } from "@/helper/validatePricingOnClient";
 import { validateAvailabilityOnClient } from "@/helper/validateAvailabilityOnClient";
 import { ITour, ITourAvailability } from "@/types/tour.interface";
-import { minutesToTime, timeToMinutes } from "@/helper/timeConverters";
-import { minToTime } from "@/helper/minToTime";
+import { minutesToTime } from "@/helper/timeConverters";
 import { toast } from "sonner";
+import Image from "next/image";
 
 
 interface EditTourDialogProps {
@@ -49,7 +48,7 @@ export default function EditTourDialog({
   // console.log({ tour })
 
   // Hook for Server Action
-  const [state, formAction, isPending] = useActionState(updateTour, null);
+  const [state, formAction] = useActionState(updateTour, null);
   const [pricingRows, setPricingRows] = useState<number[]>([]);
   const [availRows, setAvailRows] = useState<number[]>([]);
   // --- State for Images ---
@@ -144,7 +143,7 @@ export default function EditTourDialog({
     }
     // 4. Submit
     formAction(formData);
-      setLoading(true)
+    setLoading(true)
   };
 
   // --- Effect: Handle Success/Error ---
@@ -225,7 +224,10 @@ export default function EditTourDialog({
                     {existingImages.map((src, index) => (
                       <div key={index} className="relative group w-24 h-24 rounded-md overflow-hidden border">
                         {/* Using standard img tag for external URLs if domain not configured in Next.js, otherwise use Image */}
-                        <img src={src} alt="existing" className="w-full h-full object-cover" />
+                        <Image
+                          width={2000}
+                          height={400}
+                          src={src} alt="existing" className="w-full h-full object-cover" />
                         <button
                           type="button"
                           onClick={() => removeExistingImage(src)}
@@ -257,7 +259,10 @@ export default function EditTourDialog({
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
                   {newPreviews.map((src, index) => (
                     <div key={index} className="relative group aspect-square rounded-md overflow-hidden border">
-                      <img src={src} alt="new-preview" className="w-full h-full object-cover" />
+                      <Image
+                        width={2000}
+                        height={300}
+                        src={src} alt="new-preview" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => removeNewFile(index)}

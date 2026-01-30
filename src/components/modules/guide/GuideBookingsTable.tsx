@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Check, X } from "lucide-react";
+import {  X } from "lucide-react";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 
@@ -21,7 +21,7 @@ const GuideBookingsTable = ({ bookings, meta }: { bookings: any[]; meta: IMeta }
 
 
   const [bookingList, setBookingList] = useState<any[]>(bookings);
-  const [isUpdating, setIsUpdating] = useState<string | null>(null); // Track which ID is updating
+  const [isUpdating, ] = useState<string | null>(null); // Track which ID is updating
   useEffect(() => {
     setBookingList(bookings);
   }, [bookings]);

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import React from 'react';
 import { Shield, CheckCircle2, Map, Zap, Globe, ArrowRight } from 'lucide-react';
 import SectionHeader from '@/components/shared/home/SectionHeader';

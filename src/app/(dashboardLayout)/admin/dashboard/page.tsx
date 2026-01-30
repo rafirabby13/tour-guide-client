@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const dynamic = "force-dynamic";
 
 import React from 'react';
@@ -23,7 +23,6 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getAdminDashboardStats } from '@/services/stats/stats';
 

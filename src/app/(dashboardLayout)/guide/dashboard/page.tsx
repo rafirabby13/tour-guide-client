@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const dynamic = "force-dynamic";
 import React from 'react';
 import Link from 'next/link';
@@ -79,22 +79,22 @@ const GuideDashboard = () => {
                 </div>
 
                 {/* Tips / Insights (1/3 width) */}
-                <div className="bg-gradient-to-b from-primaryto-white rounded-2xl border border-primary p-6">
+                <div className="bg-linear-to-b from-primaryto-white rounded-2xl border border-primary p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                         <TrendingUp className="h-5 w-5 text-primary" />
                         Pro Tips
                     </h3>
                     <ul className="space-y-4">
                         <li className="flex gap-3 items-start text-sm text-gray-600">
-                            <div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-primary font-bold text-xs">1</div>
+                            <div className="w-6 h-6 rounded-full bg-primary shrink-0 flex items-center justify-center text-primary font-bold text-xs">1</div>
                             <p>Add high-quality photos to your tours to increase booking rates by up to 40%.</p>
                         </li>
                         <li className="flex gap-3 items-start text-sm text-gray-600">
-                            <div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-primary font-bold text-xs">2</div>
+                            <div className="w-6 h-6 rounded-full bg-primary shrink-0 flex items-center justify-center text-primary font-bold text-xs">2</div>
                             <p>Respond to booking inquiries within 2 hours to maintain a high response badge.</p>
                         </li>
                         <li className="flex gap-3 items-start text-sm text-gray-600">
-                            <div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-primary font-bold text-xs">3</div>
+                            <div className="w-6 h-6 rounded-full bg-primary shrink-0 flex items-center justify-center text-primary font-bold text-xs">3</div>
                             <p>Ask happy travelers to leave a review immediately after the tour ends.</p>
                         </li>
                     </ul>

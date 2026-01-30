@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Field,
@@ -12,10 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
 import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
 import { Plus, Trash2, UploadCloud, X } from "lucide-react";
 import { createTour } from "@/services/guide/createTour";
 import { validatePricingOnClient } from "@/helper/validatePricingOnClient";
+import Image from "next/image";
 
 const CreateTourForm = () => {
     const [state, formAction, isPending] = useActionState(createTour, null);
@@ -177,7 +177,10 @@ const CreateTourForm = () => {
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
                             {previews.map((src, index) => (
                                 <div key={index} className="relative group aspect-square rounded-md overflow-hidden border">
-                                    <img src={src} alt="preview" className="w-full h-full object-cover" />
+                                    <Image
+                                        width={2000}
+                                        height={400}
+                                        src={src} alt="preview" className="w-full h-full object-cover" />
                                     <button
                                         type="button"
                                         onClick={() => removeFile(index)}

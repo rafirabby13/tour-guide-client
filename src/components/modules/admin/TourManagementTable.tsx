@@ -2,7 +2,6 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import DeleteConfirmationDialog from '@/components/shared/alert/DeleteConfirmationDialog'
 import ManagementTables, { Column } from '@/components/shared/tables/ManagementTables'
 import { IMeta } from '@/types/meta.interface'
 import { ITour } from '@/types/tour.interface'

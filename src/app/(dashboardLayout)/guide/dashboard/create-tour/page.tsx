@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ChevronLeft, LayoutDashboard } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import CreateTourForm from "@/components/modules/guide/CreateTourForm";
 
 const CreateTourPage = () => {

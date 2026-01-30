@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const dynamic = "force-dynamic";
 import React from 'react';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ const TouristDashboard = () => {
         <div className="space-y-8 animate-in fade-in-50 duration-500">
             
             {/* 1. Welcome Header */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary to-primary/70 p-8 md:p-12 text-white shadow-xl">
+            <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-primary to-primary/70 p-8 md:p-12 text-white shadow-xl">
                 <div className="relative z-10 max-w-2xl space-y-4">
                     <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                         Ready for your next adventure?

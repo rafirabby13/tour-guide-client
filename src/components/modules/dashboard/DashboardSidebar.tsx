@@ -3,7 +3,6 @@ import { getNavItemsByRole } from "@/lib/navItems.config";
 import { NavSection } from "@/types/dashboard.interface";
 import DashboardSidebarContent from "../dashboard/DashboardSidebarContent"
 import { getMyProfile } from "@/services/commmon/myProfile";
-import { RollerCoaster } from "lucide-react";
 
 const DashboardSidebar = async () => {
   const profile = await getMyProfile()

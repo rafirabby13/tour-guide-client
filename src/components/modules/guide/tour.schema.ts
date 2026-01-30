@@ -9,7 +9,7 @@ const tourPricingSchema = z.object({
   pricePerHour: z.number().positive("Price must be positive"),
 })
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+// const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 // 1. Individual Slot Schema
 const tourAvailabilitySchema = z.object({
@@ -76,7 +76,7 @@ const validAvailabilityList = z.array(tourAvailabilitySchema)
     });
 
     // Check Overlaps per Day
-    slotsByDay.forEach((daySlots, dayIndex) => {
+    slotsByDay.forEach((daySlots, ) => {
       daySlots.sort((a, b) => a.startTime.localeCompare(b.startTime));
 
       for (let i = 0; i < daySlots.length - 1; i++) {

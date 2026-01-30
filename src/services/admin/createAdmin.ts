@@ -5,11 +5,8 @@ import { serverFetch } from "@/lib/server-fetch";
 
 export const createAdminAction = async (_currentState: any, formData: FormData): Promise<any> => {
     try {
-      
-
-     
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = formData.get("email");
+        const password = formData.get("password");
 
         if (!email || !password) {
             return {
@@ -32,7 +29,6 @@ export const createAdminAction = async (_currentState: any, formData: FormData):
         });
 
         const result = await res.json();
-
 
         return result;
 

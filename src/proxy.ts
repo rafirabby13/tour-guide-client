@@ -13,7 +13,7 @@ export async function proxy(request: NextRequest) {
     const accessToken = request.cookies.get("accessToken")?.value || null;
     let userRole: UserRole | null = null;
     if (accessToken) {
-        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET!);
+        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
 
         // console.log("verifiedToken:", verifiedToken);
 

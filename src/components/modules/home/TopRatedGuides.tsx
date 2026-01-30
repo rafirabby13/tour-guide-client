@@ -7,7 +7,8 @@ import SectionHeader from '@/components/shared/home/SectionHeader';
 import { getTopGuides } from '@/services/guide/getTopGuides';
 
 const TopRatedGuides = async () => {
-  const guides = await getTopGuides();
+  const limit =2
+  const guides = await getTopGuides(limit);
 
   console.log({guides})
 

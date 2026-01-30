@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client"
 import React, { useEffect, useState } from 'react';
-import { toast } from 'sonner'; 
 import ManagementTables, { Column } from '@/components/shared/tables/ManagementTables';
 import TablePagination from '@/components/shared/tables/TablePagination';
-import DeleteConfirmationDialog from '@/components/shared/alert/DeleteConfirmationDialog';
-import { IGuideProfile } from '@/types/guideProfile'; // The Guide profile type
+import { IGuideProfile } from '@/types/guideProfile'; 
 import { MapPin, Briefcase, User, Phone, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
 // The component now accepts initialRequests (IGuideProfile[]) as props
 const BecomeGuideTable = ({ initialRequests }: { initialRequests: IGuideProfile[] }) => {
-    
-    // Initialize requests state with data passed from the server
+    const [meta, setMeta] = useState({ page: 1, limit: 10, total: 0 });
+    const [isLoading, setIsLoading] = useState(true);
+
     const [requests, setRequests] = useState<IGuideProfile[]>([]);
     
     // Filter the initial server data to ensure only pending guides are shown
     useEffect(() => {
         const pendingGuides = initialRequests.filter(guide => !guide.isVerified);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRequests(pendingGuides);
         // Assuming your backend handles pagination/meta. For now, total is just filtered count.
         setMeta(prev => ({ ...prev, total: pendingGuides.length }));
@@ -25,8 +25,7 @@ const BecomeGuideTable = ({ initialRequests }: { initialRequests: IGuideProfile[
     }, [initialRequests]);
 
 
-    const [meta, setMeta] = useState({ page: 1, limit: 10, total: 0 });
-    const [isLoading, setIsLoading] = useState(true);
+    
     
     // State for Approval Dialog
     const [selectedGuide, setSelectedGuide] = useState<IGuideProfile | null>(null);
@@ -111,36 +110,7 @@ const BecomeGuideTable = ({ initialRequests }: { initialRequests: IGuideProfile[
         setIsConfirmOpen(true);
     };
 
-    const handleConfirmApprove = async () => {
-        if (!selectedGuide) return;
-        
-        try {
-            setIsProcessing(true);
-            
-            // Call API to update guide status using the Guide ID
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/guides/${selectedGuide.id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ isVerified: true, isAvailable: true }) // Also set available upon verification
-            });
-            const result = await res.json();
-
-            if (result.success) {
-                toast.success(`${selectedGuide.name} approved successfully!`);
-                // Remove from list locally
-                setRequests(prev => prev.filter(g => g.id !== selectedGuide.id));
-                setMeta(prev => ({ ...prev, total: prev.total - 1 })); // Decrement total
-                setIsConfirmOpen(false);
-                setSelectedGuide(null);
-            } else {
-                toast.error(result.message || "Failed to approve");
-            }
-        } catch (error) {
-            toast.error("Something went wrong");
-        } finally {
-            setIsProcessing(false);
-        }
-    };
+    
 
     if (isLoading) return <div className="p-10 text-center text-gray-500">Loading requests...</div>;
 
