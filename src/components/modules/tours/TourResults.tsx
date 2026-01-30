@@ -11,15 +11,17 @@ const TourResults = async ({ query }: { query: string }) => {
         ? toursData.filter((tour: any) => tour.status === "PUBLISHED")
         : [];
     const meta = response?.meta || { page: 1, limit: 10, total: 0 };
+
+    console.log({response}, {publishedTours})
     if (publishedTours.length === 0) {
         return <div className="text-center py-20">No tours found.</div>;
     }
     return (
         <>
-            {/* The Grid */}
+          
+          
             <ToursGrid tours={publishedTours} />
 
-            {/* The Pagination */}
             <div className="mt-12">
                 <TablePagination limit={meta.limit} page={meta.page} total={meta.total} />
             </div>

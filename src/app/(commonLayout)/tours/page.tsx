@@ -28,7 +28,6 @@ const ToursPage = async (props: ToursPageProps) => {
     }
   });
   const query = queryParams.toString();
-  const response = await getAllTours(queryParams as any);
 
 
   return (
@@ -59,18 +58,7 @@ const ToursPage = async (props: ToursPageProps) => {
               {/* Mobile Sort Dropdown here if needed */}
             </div>
 
-            {/* Grid */}
-            {/* <Suspense fallback={<p>Loading...</p>}>
-              <ToursGrid tours={publishedTours} />
-            </Suspense>
-
-           
-            <div className="mt-12">
-              <Suspense fallback={<p>Loading...</p>}>
-
-                <TablePagination limit={meta.limit} page={meta.page} total={meta.total} />
-              </Suspense>
-            </div> */}
+          
             <Suspense key={query} fallback={<ToursLoadingSkeleton />}>
               <TourResults query={query} />
             </Suspense>
