@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const PopularTrips = async () => {
   const query = { limit: 4 }
-  const response = await getAllTours(query as any);
+  const response = await getAllTours("limit=4");
   const tours = Array.isArray(response) ? response : response?.data || [];
 
   return (

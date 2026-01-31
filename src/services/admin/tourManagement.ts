@@ -1,12 +1,13 @@
  
 import { serverFetch } from "@/lib/server-fetch"
 
-export async function getAllTours(query: { limit?: number } = {}) {
+export async function getAllTours(query: string = "") {
     try {
         // console.log({query})
-        const url = query ? `/tour/all-tours?limit=${query.limit}` : `/tour/all-tours`;
+        // const url = query ? `/tour/all-tours?limit=${query.limit}` : `/tour/all-tours`;
         // console.log({url})
         // const page = Number(query.page)
+        const url = `/tour/all-tours?${query}`;
         const response = await serverFetch.get(url)
         const result = await response.json()
         return result
