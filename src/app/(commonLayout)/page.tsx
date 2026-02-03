@@ -1,13 +1,29 @@
 // export const dynamic = "force-dynamic"; // <--- ADD THIS
-import BentoGrid from "@/components/modules/home/BentoGrid";
-import Categories from "@/components/modules/home/Categories";
+// import BentoGrid from "@/components/modules/home/BentoGrid";
 import HeroSection from "@/components/modules/home/HeroSection";
 import HowItWorks from "@/components/modules/home/HowItWorks";
-import PopularTrips from "@/components/modules/home/PopularTrips";
-import TopRatedGuides from "@/components/modules/home/TopRatedGuides";
-import WhyChooseUs from "@/components/modules/home/WhyChooseUs";
+
+// import WhyChooseUs from "@/components/modules/home/WhyChooseUs";
 import SectionLoader from "@/components/shared/loader/SectionLoader";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+
+const PopularTrips = dynamic(() => import("@/components/modules/home/PopularTrips"), {
+  loading: () => <SectionLoader />,
+  ssr: true
+});
+const TopRatedGuides = dynamic(() => import("@/components/modules/home/TopRatedGuides"), {
+  loading: () => <SectionLoader />,
+  ssr: true
+});
+const Categories = dynamic(() => import("@/components/modules/home/Categories"), {
+  loading: () => <SectionLoader />,
+});
+const WhyChooseUs = dynamic(() => import("@/components/modules/home/WhyChooseUs"));
+
+const BentoGrid = dynamic(() => import("@/components/modules/home/BentoGrid"), {
+  loading: () => <SectionLoader />,
+});
 
 export const revalidate = 600;
 export default function Home() {
@@ -30,7 +46,9 @@ export default function Home() {
         </Suspense>
         <Categories />
         <WhyChooseUs />
-        <BentoGrid />
+        <Suspense fallback={<SectionLoader />}>
+          <BentoGrid />
+        </Suspense>
       </div>
     </div>
   );

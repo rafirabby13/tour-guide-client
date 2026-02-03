@@ -12,7 +12,7 @@ const TourResults = async ({ query }: { query: string }) => {
         : [];
     const meta = response?.meta || { page: 1, limit: 10, total: 0 };
 
-    console.log({response}, {publishedTours})
+    // console.log({response}, {publishedTours})
     if (publishedTours.length === 0) {
         return <div className="text-center py-20">No tours found.</div>;
     }

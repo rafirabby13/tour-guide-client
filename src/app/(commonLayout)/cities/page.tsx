@@ -1,19 +1,16 @@
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, ArrowUpRight } from 'lucide-react';
 import SectionHeader from '@/components/shared/home/SectionHeader';
 import { Button } from '@/components/ui/button';
-import { getPopularDestinations } from '@/services/commmon/getPopularDestination';
 import CitiesSkeleton from '@/components/shared/loader/CitiesSkeleton';
 import CitiesGrid from '@/components/modules/cities/CitiesGrid';
 
 
 
-const CitiesPage = async () => {
-  const { data: popularDestinations } = await getPopularDestinations();
-  // console.log(popularDestinations)
-  const citiesToDisplay = popularDestinations?.length > 0 ? popularDestinations : [];
+const CitiesPage =  () => {
+
+  
   return (
     <div className="min-h-screen bg-white pb-20">
 
@@ -25,6 +22,7 @@ const CitiesPage = async () => {
             alt="World Map"
             fill
             priority={true}
+            sizes="100vw"
             className="object-cover"
           />
         </div>
@@ -51,47 +49,9 @@ const CitiesPage = async () => {
         <Suspense fallback={<CitiesSkeleton />}>
           <CitiesGrid />
         </Suspense>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {citiesToDisplay?.map((city: { name: string, image: string, id: string, country: string, count: number, slug: string }) => (
-            <Link
-              key={city.id}
-              // ✅ Connects to your existing Search functionality
-              href={`/tours?searchTerm=${city.name}`}
-              className="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer"
-            >
-              <Image
-                src={city.image}
-                alt={city.name}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
-              />
+      
 
-             -0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-70 transition-opacity" />
-
-          
-              <div className="absolute bottom-0 left-0 w-full p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <p className="text-slate-300 text-sm font-medium mb-1 flex items-center gap-1 uppercase tracking-wider">
-                      <MapPin className="w-3 h-3" /> {city.country}
-                    </p>
-                    <h3 className="text-3xl font-bold text-white mb-2">{city.name}</h3>
-                    <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-medium text-white border border-white/10">
-                      {city.count} Tours Available
-                    </span>
-                  </div>
-
-                  
-                  <div className="w-12 h-12 rounded-full bg-white text-slate-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-                    <ArrowUpRight className="w-5 h-5" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div> */}
-
-        {/* CTA Section */}
+       
         <div className="mt-24 bg-slate-50 rounded-3xl p-12 text-center border border-slate-100">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
             Don&apos;t see your city?
